@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html ng-app="UIComponents">
+<head>
+    <title>A Reusable Smart Button Component</title>
+    <link href="./lib/bootstrap.min.css" rel="stylesheet">
+    <script src="./lib/angular.min.js"></script>
+</head>
+<body>
+    <div class="jumbotron">
+        <h1>Smart Buttons!</h1>
+        <p><!-- static markup version -->
+            <a class="btn btn-default">Dumb Button</a>
+        </p>
+        <p><!-- dynamic component version-->
+            <!--<smart-button
+                    default-text="A Very Smart Button"
+                    active-text="Wait for 3 seconds..."
+                    debug="showAlert('a value on the $rootScope')"
+                    ></smart-button>-->
+        </p>
+        <p><!-- dynamic component version-->
+            <!--<smart-button
+                    default-text="Another Smart Button"
+                    active-text="Wait for 5 seconds..."
+                    ></smart-button>-->
+        </p>
+        <p><!-- transclusion version-->
+            <smart-button
+                    default-text="Text from attribute"
+                    active-text="Wait for 5 seconds..."
+                    >
+                Text from transclusion.
+            </smart-button>
+        </p>
+
+    </div>
+    <script src="./js/UIComponents.js"></script>
+    <script src="./js/SmartButton.js"></script>
+</body>
+</html>
