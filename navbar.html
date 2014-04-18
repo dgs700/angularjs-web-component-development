@@ -9,8 +9,98 @@
 <body>
 
 <uic-nav-bar>
-    <uic-dropdown-menu></uic-dropdown-menu>
+    <uic-dropdown-menu text="Another DD">
+        <uic-menu-item
+                title="First Item"
+                url="http://www.david-shapiro.net"></uic-menu-item>
+        <uic-menu-item
+                title="Second Item"
+                url="http://david--shapiro.blogspot.com/"></uic-menu-item>
+    </uic-dropdown-menu>
 </uic-nav-bar>
+
+<script>
+    var UIC = {};
+    UIC.header = [
+        {"Products":[
+            {
+                "text":"Agile Manager",
+                "url":"/products/agile-manager"
+            },{
+                "text":"AppPulse",
+                "url":"/products/app-pulse"
+            },{
+                "text":"Fortify on Demand",
+                "url":"/products/fod"
+            },{
+                "text":"HP Anywhere",
+                "url":"/products/hp-anywhere"
+            },{
+                "text":"Service Anywhere",
+                "url":"/products/service-anywhere"
+            },{
+                "text":"Vertica",
+                "url":"/products/vertica"
+            }]},
+        {"Pricing":[
+            {
+                "text":"Agile Manager",
+                "url":"/pricing/agile-manager"
+            },{
+                "text":"AppPulse",
+                "url":"/pricing/app-pulse"
+            },{
+                "text":"Fortify on Demand",
+                "url":"/pricing/fod"
+            },{
+                "text":"HP Anywhere",
+                "url":"/pricing/hp-anywhere"
+            },{
+                "text":"Service Anywhere",
+                "url":"/pricing/service-anywhere"
+            },{
+                "text":"Vertica",
+                "url":"/products/vertica"
+            }
+        ]},
+        {"Learn":[
+            {
+                "text":"White Papers",
+                "url":"/learn/papers"
+            },{
+                "text":"Case Studies",
+                "url":"/learn/studies"
+            },{
+                "text":"Videos",
+                "url":"/learn/videos"
+            },{
+                "text":"Webinars",
+                "url":"/learn/webinars"
+            },{
+                "text":"Documentation",
+                "url":"/learn/documentation"
+            },{
+                "text":"News & Reports",
+                "url":"/learn/news"
+            }
+        ]},
+        {"Company":[
+            {
+                "text":"Contact Us",
+                "url":"/company/contact"
+            },{
+                "text":"Jobs",
+                "url":"/company/jobs"
+            },{
+                "text":"Privacy Statement",
+                "url":"/company/privacy"
+            },{
+                "text":"Terms of Use",
+                "url":"/company/terms"
+            }]}
+    ];
+
+</script>
 <script src="./js/dropdown.js"></script>
 </body>
 </html>

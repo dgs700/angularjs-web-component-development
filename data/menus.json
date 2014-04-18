@@ -1,78 +1,78 @@
 {"header":[
     {"Products":[
         {
-        "name":"Agile Manager",
+        "text":"Agile Manager",
         "url":"/products/agile-manager"
         },{
-        "name":"AppPulse",
+        "text":"AppPulse",
         "url":"/products/app-pulse"
         },{
-        "name":"Fortify on Demand",
+        "text":"Fortify on Demand",
         "url":"/products/fod"
         },{
-        "name":"HP Anywhere",
+        "text":"HP Anywhere",
         "url":"/products/hp-anywhere"
         },{
-        "name":"Service Anywhere",
+        "text":"Service Anywhere",
         "url":"/products/service-anywhere"
         },{
-        "name":"Vertica",
+        "text":"Vertica",
         "url":"/products/vertica"
         }]},
     {"Pricing":[
         {
-        "name":"Agile Manager",
+        "text":"Agile Manager",
         "url":"/pricing/agile-manager"
         },{
-        "name":"AppPulse",
+        "text":"AppPulse",
         "url":"/pricing/app-pulse"
         },{
-        "name":"Fortify on Demand",
+        "text":"Fortify on Demand",
         "url":"/pricing/fod"
         },{
-        "name":"HP Anywhere",
+        "text":"HP Anywhere",
         "url":"/pricing/hp-anywhere"
         },{
-        "name":"Service Anywhere",
+        "text":"Service Anywhere",
         "url":"/pricing/service-anywhere"
         },{
-        "name":"Vertica",
+        "text":"Vertica",
         "url":"/products/vertica"
         }
     ]},
     {"Learn":[
         {
-        "name":"White Papers",
+        "text":"White Papers",
         "url":"/learn/papers"
         },{
-        "name":"Case Studies",
+        "text":"Case Studies",
         "url":"/learn/studies"
         },{
-        "name":"Videos",
+        "text":"Videos",
         "url":"/learn/videos"
         },{
-        "name":"Webinars",
+        "text":"Webinars",
         "url":"/learn/webinars"
         },{
-        "name":"Documentation",
+        "text":"Documentation",
         "url":"/learn/documentation"
         },{
-        "name":"News & Reports",
+        "text":"News & Reports",
         "url":"/learn/news"
         }
     ]},
     {"Company":[
         {
-        "name":"Contact Us",
+        "text":"Contact Us",
         "url":"/company/contact"
         },{
-        "name":"Jobs",
+        "text":"Jobs",
         "url":"/company/jobs"
         },{
-        "name":"Privacy Statement",
+        "text":"Privacy Statement",
         "url":"/company/privacy"
         },{
-        "name":"Terms of Use",
+        "text":"Terms of Use",
         "url":"/company/terms"
     }]}
 ]}
