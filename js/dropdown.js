@@ -4,7 +4,7 @@
 
     // html5 markup that replaces custom <uic-nav-bar> component element
     var navbarTpl =
-          '<nav class="navbar navbar-default navbar-static">'
+          '<nav ng-class="\'navbar navbar-default navbar-static\'">'
         + '  <div class="container-fluid">'
         + '    <div class="navbar-header">'
         + '      <button class="navbar-toggle" type="button">'
