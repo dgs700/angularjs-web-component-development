@@ -3,21 +3,77 @@
 <head>
     <title>Container Component - NavBar</title>
     <link href="./lib/bootstrap.min.css" rel="stylesheet">
-    <link href="./css/navigation.css" rel="stylesheet">
+    <!--<link href="./css/navigation.css" rel="stylesheet">-->
+    <style>
+        .open > .dropdown-menu {
+            -webkit-transform: scale(1, 1);
+            transform: scale(1, 1);
+
+        }
+        .open > .dropdown-menu li a {
+            color: #999;
+        }
+        .open > .dropdown-menu li a:hover {
+            color: #FFF;
+            background-color: #222;
+        }
+        .dropdown-menu {
+            -webkit-transform-origin: top;
+            transform-origin: top;
+            -webkit-animation-fill-mode: forwards;
+            animation-fill-mode: forwards;
+            -webkit-transform: scale(1, 0);
+            display: block;
+
+            transition: all 0.2s ease-out;
+            -webkit-transition: all 0.2s ease-out;
+            background-color: #222;
+            border-color: #080808;
+            color: #999;
+        }
+        .close .dropdown-menu {
+            -webkit-transform-origin: bottom;
+            transform-origin: bottom;
+        }
+
+        .navbar .nav > li > .dropdown-menu:after {
+
+        }
+        .dropup > .dropdown-menu:after {
+            border-bottom: 0;
+            border-top: 6px solid rgba(39, 45, 51, 0.9);
+            top: auto;
+            display: inline-block;
+            bottom: -6px;
+            content: '';
+            position: absolute;
+            left: 50%;
+            border-right: 6px solid transparent;
+            border-left: 6px solid transparent;
+        }
+        .nav a {cursor: pointer;}
+        .navbar-collapse.in {overflow-y: inherit;}
+        .navbar-collapse {max-height: inherit;}
+        .navbar-inverse .navbar-brand {
+            color: #FFF;
+        }
+    </style>
     <script src="./lib/jquery-2.1.0.min.js"></script>
     <script src="./lib/angular.min.js"></script>
+    <script src="./lib/angular-animate.min.js"></script>
 </head>
 <body>
 
 <uic-nav-bar minimal="false">
     <uic-dropdown-menu text="Another DD">
         <uic-menu-item
-                title="First Item"
+                text="First Item"
                 url="http://www.david-shapiro.net"></uic-menu-item>
         <uic-menu-item
-                title="Second Item"
+                text="Second Item"
                 url="http://david--shapiro.blogspot.com/"></uic-menu-item>
     </uic-dropdown-menu>
+    <uic-menu-item text="Link Only" url="http://david-shapiro.net"></uic-menu-item>
 </uic-nav-bar>
 
 <script>
@@ -102,6 +158,7 @@
     ];
 
 </script>
+<script src="./lib/ui-bootstrap-collapse.js"></script>
 <script src="./js/dropdown.js"></script>
 </body>
 </html>
