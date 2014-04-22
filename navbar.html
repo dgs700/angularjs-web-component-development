@@ -5,39 +5,24 @@
     <link href="./lib/bootstrap.min.css" rel="stylesheet">
     <!--<link href="./css/navigation.css" rel="stylesheet">-->
     <style>
-        .open > .dropdown-menu {
-            -webkit-transform: scale(1, 1);
-            transform: scale(1, 1);
-
-        }
-        .open > .dropdown-menu li a {
+        .dropdown-menu li a {
             color: #999;
         }
-        .open > .dropdown-menu li a:hover {
+        .dropdown-menu li a:hover {
             color: #FFF;
             background-color: #222;
         }
         .dropdown-menu {
-            -webkit-transform-origin: top;
-            transform-origin: top;
-            -webkit-animation-fill-mode: forwards;
-            animation-fill-mode: forwards;
-            -webkit-transform: scale(1, 0);
-            display: block;
-
-            transition: all 0.2s ease-out;
-            -webkit-transition: all 0.2s ease-out;
+            display: none;
             background-color: #222;
             border-color: #080808;
             color: #999;
         }
-        .close .dropdown-menu {
-            -webkit-transform-origin: bottom;
-            transform-origin: bottom;
-        }
-
-        .navbar .nav > li > .dropdown-menu:after {
-
+        @media (max-width: 768px) {
+            .dropdown-menu{
+                position: static;
+                float: none;
+            }
         }
         .dropup > .dropdown-menu:after {
             border-bottom: 0;
@@ -60,82 +45,95 @@
     </style>
     <script src="./lib/jquery-2.1.0.min.js"></script>
     <script src="./lib/angular.min.js"></script>
-    <script src="./lib/angular-animate.min.js"></script>
 </head>
 <body>
 
-<uic-nav-bar minimal="false">
-    <uic-dropdown-menu text="Another DD">
+<uic-nav-bar
+        minimal="false"
+        sticky="true">
+
+    <uic-dropdown-menu
+            position="right"
+            text="Another DD">
         <uic-menu-item
                 text="First Item"
-                url="http://www.david-shapiro.net"></uic-menu-item>
+                url="http://www.david-shapiro.net"
+                ></uic-menu-item>
         <uic-menu-item
                 text="Second Item"
-                url="http://david--shapiro.blogspot.com/"></uic-menu-item>
+                url="http://david--shapiro.blogspot.com/"
+                ></uic-menu-item>
     </uic-dropdown-menu>
-    <uic-menu-item text="Link Only" url="http://david-shapiro.net"></uic-menu-item>
+
+    <uic-menu-item
+            text="Link Only"
+            url="http://david-shapiro.net"
+            ></uic-menu-item>
+
 </uic-nav-bar>
 
+<div style="height: 2000px;background-color: yellow;">
+    a very tall div to give the page a body
+</div>
+
 <script>
+    // some fake json data for constructing a set of dropdown menus
+    // the real data would be supplied either via AJAX/REST or
+    // preferably bootstrapped with the inital page load if possible
     var UIC = {};
     UIC.header = [
         {"Products":[
             {
-                "text":"Agile Manager",
-                "url":"/products/agile-manager"
+                "text":"Scrum Manager",
+                "url":"/products/scrum-manager"
             },{
-                "text":"AppPulse",
-                "url":"/products/app-pulse"
+                "text":"AppBeat",
+                "url":"/products/app-beat"
             },{
-                "text":"Fortify on Demand",
-                "url":"/products/fod"
+                "text":"Solidify on Request",
+                "url":"/products/sor"
             },{
-                "text":"HP Anywhere",
-                "url":"/products/hp-anywhere"
+                "text":"IQ Everywhere",
+                "url":"/products/iq-anywhere"
             },{
-                "text":"Service Anywhere",
-                "url":"/products/service-anywhere"
-            },{
-                "text":"Vertica",
-                "url":"/products/vertica"
-            }]},
-        {"Pricing":[
-            {
-                "text":"Agile Manager",
-                "url":"/pricing/agile-manager"
-            },{
-                "text":"AppPulse",
-                "url":"/pricing/app-pulse"
-            },{
-                "text":"Fortify on Demand",
-                "url":"/pricing/fod"
-            },{
-                "text":"HP Anywhere",
-                "url":"/pricing/hp-anywhere"
-            },{
-                "text":"Service Anywhere",
-                "url":"/pricing/service-anywhere"
-            },{
-                "text":"Vertica",
-                "url":"/products/vertica"
+                "text":"Service Everywhere",
+                "url":"/products/service-everywhere"
             }
         ]},
-        {"Learn":[
+        {"Pricing":[
+            {
+                "text":"Scrum Manager",
+                "url":"/pricing/scrum-manager"
+            },{
+                "text":"AppBeat",
+                "url":"/pricing/app-beat"
+            },{
+                "text":"Solidify on Request",
+                "url":"/pricing/sor"
+            },{
+                "text":"IQ Everywhere",
+                "url":"/pricing/iq-anywhere"
+            },{
+                "text":"Service Everywhere",
+                "url":"/pricing/service-everywhere"
+            }
+        ]},
+        {"Support":[
             {
                 "text":"White Papers",
-                "url":"/learn/papers"
+                "url":"/support/papers"
             },{
                 "text":"Case Studies",
-                "url":"/learn/studies"
+                "url":"/support/studies"
             },{
                 "text":"Videos",
-                "url":"/learn/videos"
+                "url":"/support/videos"
             },{
                 "text":"Webinars",
-                "url":"/learn/webinars"
+                "url":"/support/webinars"
             },{
                 "text":"Documentation",
-                "url":"/learn/documentation"
+                "url":"/support/documentation"
             },{
                 "text":"News & Reports",
                 "url":"/learn/news"
@@ -156,9 +154,10 @@
                 "url":"/company/terms"
             }]}
     ];
-
 </script>
+
 <script src="./lib/ui-bootstrap-collapse.js"></script>
 <script src="./js/dropdown.js"></script>
+<script src="./js/navbar.js"></script>
 </body>
 </html>

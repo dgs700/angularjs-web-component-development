@@ -1,78 +1,75 @@
 {"header":[
     {"Products":[
-        {
-        "text":"Agile Manager",
-        "url":"/products/agile-manager"
-        },{
-        "text":"AppPulse",
-        "url":"/products/app-pulse"
-        },{
-        "text":"Fortify on Demand",
-        "url":"/products/fod"
-        },{
-        "text":"HP Anywhere",
-        "url":"/products/hp-anywhere"
-        },{
-        "text":"Service Anywhere",
-        "url":"/products/service-anywhere"
-        },{
-        "text":"Vertica",
-        "url":"/products/vertica"
-        }]},
-    {"Pricing":[
-        {
-        "text":"Agile Manager",
-        "url":"/pricing/agile-manager"
-        },{
-        "text":"AppPulse",
-        "url":"/pricing/app-pulse"
-        },{
-        "text":"Fortify on Demand",
-        "url":"/pricing/fod"
-        },{
-        "text":"HP Anywhere",
-        "url":"/pricing/hp-anywhere"
-        },{
-        "text":"Service Anywhere",
-        "url":"/pricing/service-anywhere"
-        },{
-        "text":"Vertica",
-        "url":"/products/vertica"
-        }
-    ]},
-    {"Learn":[
-        {
-        "text":"White Papers",
-        "url":"/learn/papers"
-        },{
-        "text":"Case Studies",
-        "url":"/learn/studies"
-        },{
-        "text":"Videos",
-        "url":"/learn/videos"
-        },{
-        "text":"Webinars",
-        "url":"/learn/webinars"
-        },{
-        "text":"Documentation",
-        "url":"/learn/documentation"
-        },{
-        "text":"News & Reports",
-        "url":"/learn/news"
-        }
-    ]},
-    {"Company":[
-        {
-        "text":"Contact Us",
-        "url":"/company/contact"
-        },{
-        "text":"Jobs",
-        "url":"/company/jobs"
-        },{
-        "text":"Privacy Statement",
-        "url":"/company/privacy"
-        },{
-        "text":"Terms of Use",
-        "url":"/company/terms"
-    }]}
+        {"Products":[
+            {
+                "text":"Scrum Manager",
+                "url":"/products/scrum-manager"
+            },{
+                "text":"AppBeat",
+                "url":"/products/app-beat"
+            },{
+                "text":"Solidify on Request",
+                "url":"/products/sor"
+            },{
+                "text":"IQ Everywhere",
+                "url":"/products/iq-anywhere"
+            },{
+                "text":"Service Everywhere",
+                "url":"/products/service-everywhere"
+            }
+        ]},
+        {"Pricing":[
+            {
+                "text":"Scrum Manager",
+                "url":"/pricing/scrum-manager"
+            },{
+                "text":"AppBeat",
+                "url":"/pricing/app-beat"
+            },{
+                "text":"Solidify on Request",
+                "url":"/pricing/sor"
+            },{
+                "text":"IQ Everywhere",
+                "url":"/pricing/iq-anywhere"
+            },{
+                "text":"Service Everywhere",
+                "url":"/pricing/service-everywhere"
+            }
+        ]},
+        {"Support":[
+            {
+                "text":"White Papers",
+                "url":"/support/papers"
+            },{
+                "text":"Case Studies",
+                "url":"/support/studies"
+            },{
+                "text":"Videos",
+                "url":"/support/videos"
+            },{
+                "text":"Webinars",
+                "url":"/support/webinars"
+            },{
+                "text":"Documentation",
+                "url":"/support/documentation"
+            },{
+                "text":"News & Reports",
+                "url":"/learn/news"
+            }
+        ]},
+        {"Company":[
+            {
+                "text":"Contact Us",
+                "url":"/company/contact"
+            },{
+                "text":"Jobs",
+                "url":"/company/jobs"
+            },{
+                "text":"Privacy Statement",
+                "url":"/company/privacy"
+            },{
+                "text":"Terms of Use",
+                "url":"/company/terms"
+            }]}
+    ]}
 ]}

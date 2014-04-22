@@ -1,95 +1,7 @@
 (function(){
     'use strict';
-    angular.module('UIComponents', ['ngAnimate','uiComponents.dropdown', 'uiComponents.navbar', 'ui.bootstrap']);
 
-    // html5 markup that replaces custom <uic-nav-bar> component element
-    var navbarTpl =
-          '<nav ng-class="\'navbar navbar-inverse navbar-static\'">'
-        + '  <div class="container-fluid">'
-        + '    <div class="navbar-header">'
-        + '      <button class="navbar-toggle" type="button" ng-click="isCollapsed = !isCollapsed">'
-        + '        <span class="sr-only">Toggle navigation</span>'
-        + '        <span class="icon-bar"></span>'
-        + '        <span class="icon-bar"></span>'
-        + '        <span class="icon-bar"></span>'
-        + '      </button>'
-        + '      <a class="navbar-brand" ng-href="{{ homeUrl }}">Brand Logo</a>'
-        + '    </div>'
-        + '    <div class="collapse navbar-collapse" collapse="isCollapsed">'
-                 // this renders if menu json data is available
-        + '      <ul class="nav navbar-nav" ng-hide="minimalHeader">'
-        + '        <uic-dropdown-menu ng-repeat="menu in menus"></uic-dropdown-menu>'
-        + '      </ul>'
-                 // this renders if the designer includes markup for dropdowns
-        + '      <ul class="nav navbar-nav" ng-hide="minimalHeader" ng-transclude></ul>'
-
-        + '    </div>'
-        + '  </div>'
-        + '</nav>';
-
-    angular.module('uiComponents.navbar', ['uiComponents.dropdown'])
-        // utility functions for nav bar population
-        .service('uicNavBarService', [
-            '$window', function($window){
-                // functionality can expanded to include menu data via REST
-                // check if a menus json object is available
-                this.getMenus = function(){
-                    if($window.UIC && $window.UIC.header){
-                        return $window.UIC.header;
-                    }else{
-                        return false;
-                    }
-                };
-            }])
-
-        // Navigation Bar Container Component
-        .directive('uicNavBar', [
-            'uiCdropdownService',
-            'uicNavBarService', function( uiCdropdownService, uicNavBarService){
-            return {
-                template: navbarTpl,
-                // component directives should be elements only
-                restrict: 'E',
-                // allow page designer to include dropdown elements
-                transclude: true,
-                // replace custom tags with standard html5 markup
-                replace: true,
-                // isolate scope
-                scope: {
-                    // attribute API for hiding dropdowns
-                    minimalHeader: '@minimal'
-                },
-                controller: function($scope, $element, $attrs){
-
-                    $scope.isCollapsed = true;
-
-                    // menu json data if available
-                    $scope.menus = uicNavBarService.getMenus();
-
-                    // keep track of added dropdowns
-                    // for container level manipulation if needed
-                    $scope.registeredMenus = [];
-
-                    // listen for minimize event
-                    $scope.$on('header-minimize', function(){
-                        $scope.minimalHeader = true;
-                    });
-
-                    // listen for maximize event
-                    $scope.$on('header-maximize', function(){
-                        $scope.minimalHeader = false;
-                    });
-                },
-                link: function(scope, iElement, iAttrs){
-                    // know who the tenants are
-                    scope.registeredMenus = uiCdropdownService.getDropdowns();
-                }
-            };
-        }]);
-//todo - static vs fixed option
-//todo - get collapsed DD working
 //todo - check for href string and set ".disabled" class if none
-//todo - if no nav items display url link instead of dd button
 
     // html5 markup that replaces custom <uic-dropdown-menu> component element
     var dropdownTpl =
@@ -97,13 +9,13 @@
         // directive to toggle display of dropdown
         + '  <a dropdown-toggle>{{ dropdownTitle }}<b class="caret"></b></a>'
         // this handles menu items supplied via JSON
-        + '  <ul class="dropdown-menu">'
-        + '    <li ng-repeat="item in menuItems">'
+        + '  <ul class="dropdown-menu" ng-if="jsonData">'
+        + '    <li ng-class="disablable" ng-repeat="item in menuItems">'
         + '      <a ng-href="{{ item.url }}" ng-bind="item.text"></a>'
         + '    </li>'
         + '  </ul>'
         // this handles menu items supplied via markup
-        + '  <ul class="dropdown-menu" ng-show="noJson" ng-transclude></ul>'
+        + '  <ul class="dropdown-menu" ng-if="!jsonData" ng-transclude></ul>'
         + '</li>';
 
     // Dropdown Menu Component
@@ -111,6 +23,11 @@
     // https://github.com/angular-ui/bootstrap
 
     angular.module('uiComponents.dropdown', [])
+
+        // because we have a tansclusion option for the dropdowns we cannot
+        // reliably track open menu status at the component scope level
+        // so we prefer to dedicate a service to this task rather than pollute
+        // the $rootScope
         .service('uiCdropdownService', ['$document', function($document){
             // currently displayed dropdown
             var openScope = null;
@@ -206,7 +123,6 @@
                         closeClass = 'close',
                         openClass = 'open';
 
-                    //$scope.isCollapsed = true;
                     // supply the view-model with info from json if available
                     // this only handles data from scopes generated by ng-repeat
                     angular.forEach( $scope.$parent.menu, function(menuItems, dropdownTitle){
@@ -221,14 +137,9 @@
 
                     // indicate if this component was created via data or markup
                     // and hide the empty <ul> if needed
-                    if(!$scope.menuItems) $scope.noJson = true;
+                    if($scope.menuItems) $scope.jsonData = true;
 
-                    //if($scope.menuItems) $scope.hasJson = true;
-
-                    //if($scope.url && typeof($scope.url) === 'string'){
-                    //    $scope.noJson = $scope.hasJson = false;
-                    //}
-                        // add angular element reference to controller instance
+                    // add angular element reference to controller instance
                     // for later class toggling
                     this.init = function( element ) {
                         that.$element = element;
@@ -237,8 +148,6 @@
                     // toggle the dropdown $scope.isOpen boolean
                     this.toggle = function( open ) {
                         $scope.isOpen = arguments.length ? !!open : !$scope.isOpen;
-                        //$scope.isCollapsed = !$scope.isCollapsed;
-
                         return $scope.isOpen;
                     };
 
@@ -252,8 +161,6 @@
                     // all dropdowns need to watch the value of this expr
                     // and set evt bindings and classes accordingly
                     $scope.$watch('isOpen', function( isOpen, wasOpen ) {
-                        $animate[isOpen ? 'addClass' : 'removeClass'](that.$element, openClass);
-                        //$animate[!isOpen ? 'addClass' : 'removeClass'](that.$element, closeClass);
                         if ( isOpen ) {
                             $scope.focusToggleElement();
                             uiCdropdownService.open($scope);
@@ -274,6 +181,19 @@
                 }
             };
         }])
+        // the angular version of $('.dropdown-menu').slideToggle(200)
+        .directive('dropdownMenu', function(){
+            return {
+                restrict: 'C',
+                link: function(scope, element, attr) {
+                    scope.$watch('isOpen', function( isOpen, wasOpen ){
+                        if(isOpen !== wasOpen){
+                            element.stop().slideToggle(200);
+                        }
+                    });
+                }
+            };
+        })
 
         // a simple menu item component directive
         .directive('uicMenuItem', [function(){
