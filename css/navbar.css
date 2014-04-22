@@ -11,12 +11,12 @@ given that this example is based off of bootstrap.css, the real component
 css would likely be much more extensive given that bootstrap.css may or
 may not be available in the host page
 */
-#uic-navbar .nav a {cursor: pointer;}
-#uic-navbar .navbar-collapse {max-height: inherit;}
-#uic-navbar .navbar-collapse.in {overflow-y: inherit;}
 #uic-navbar.navbar-inverse .navbar-brand {
     color: #FFF;
 }
+#uic-navbar .nav a {cursor: pointer;}
+#uic-navbar .navbar-collapse {max-height: inherit;}
+#uic-navbar .navbar-collapse.in {overflow-y: inherit;}
 
 /*
 an example of using a css .classname for name-spacing
