@@ -1,0 +1,48 @@
+/*
+an example of name-spacing a "singleton" component with a css #id
+this allows us to 1)override matching global styles with a
+higher specificity, and 2)prevent our component styles from
+bleeding to the rest if the page
+
+#ids should only be used for components meant to be used only
+once on a page
+
+given that this example is based off of bootstrap.css, the real component
+css would likely be much more extensive given that bootstrap.css may or
+may not be available in the host page
+*/
+#uic-navbar .nav a {cursor: pointer;}
+#uic-navbar .navbar-collapse {max-height: inherit;}
+#uic-navbar .navbar-collapse.in {overflow-y: inherit;}
+#uic-navbar.navbar-inverse .navbar-brand {
+    color: #FFF;
+}
+
+/*
+an example of using a css .classname for name-spacing
+the styles for a component that may be applied more than once on a
+page
+
+.classnames provide much less specificity than #ids, so there is a
+higher likelihood that you may also need to use the dreaded
+"!important" postfix on rules
+*/
+.uic-dropdown .dropdown-menu {
+    display: none;
+    background-color: #222;
+    border-color: #080808;
+    color: #999;
+}
+@media (max-width: 768px) {
+    .uic-dropdown .dropdown-menu{
+        position: static;
+        float: none;
+    }
+}
+.uic-dropdown .dropdown-menu li a {
+    color: #999;
+}
+.uic-dropdown .dropdown-menu li a:hover {
+    color: #FFF;
+    background-color: #222;
+}

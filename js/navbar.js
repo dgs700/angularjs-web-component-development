@@ -4,7 +4,7 @@
 
     // html5 markup that replaces custom <uic-nav-bar> component element
     var navbarTpl =
-        '<nav class="navbar navbar-inverse" ng-class="position">'
+        '<nav id="uic-navbar" class="navbar navbar-inverse" ng-class="position">'
             + '  <div class="container-fluid">'
             + '    <div class="navbar-header">'
             + '      <button class="navbar-toggle" type="button" ng-click="isCollapsed = !isCollapsed">'

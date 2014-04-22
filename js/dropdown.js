@@ -5,7 +5,9 @@
 
     // html5 markup that replaces custom <uic-dropdown-menu> component element
     var dropdownTpl =
-          '<li>'
+        // the "namespaced" .uic-dropdown class can be used to provide
+        // some encapsulation for the component css
+          '<li class="uic-dropdown">'
         // directive to toggle display of dropdown
         + '  <a dropdown-toggle>{{ dropdownTitle }}<b class="caret"></b></a>'
         // this handles menu items supplied via JSON
