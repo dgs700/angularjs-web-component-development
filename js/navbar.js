@@ -4,7 +4,7 @@
 
     // html5 markup that replaces custom <uic-nav-bar> component element
     var navbarTpl =
-        '<nav id="uic-navbar" class="navbar navbar-inverse" ng-class="position">'
+        '<nav id="uic-navbar" class="navbar navbar-inverse" ng-class="[position,theme]">'
             + '  <div class="container-fluid">'
             + '    <div class="navbar-header">'
             + '      <button class="navbar-toggle" type="button" ng-click="isCollapsed = !isCollapsed">'
@@ -21,7 +21,7 @@
             + '        <uic-dropdown-menu ng-repeat="menu in menus"></uic-dropdown-menu>'
             + '      </ul>'
             // this renders if the designer includes markup for dropdowns
-            + '      <ul class="nav navbar-nav" ng-hide="minimalHeader" ng-transclude></ul>'
+            + '      <ul class="nav navbar-nav" ng-hide="minimalHeader" uic-include></ul>'
 
             + '    </div>'
             + '  </div>'
@@ -43,10 +43,26 @@
                 };
             }])
 
+        // utility directive that replaces ngTransclude to bind the content
+        // to a child scope of the directive rather than a sibling scope
+        // which allows the container component complete control of its
+        // contents
+        .directive('uicInclude', function(){
+            return {
+                restrict: 'A',
+                link: function(scope, iElement, iAttrs, ctrl, $transclude) {
+                    $transclude(scope, function(clone) {
+                        iElement.append(clone);
+                    });
+                }
+            };
+        })
+
         // Navigation Bar Container Component
         .directive('uicNavBar', [
-            'uiCdropdownService',
-            'uicNavBarService', function( uiCdropdownService, uicNavBarService){
+            'uicDropdownService',
+            'uicNavBarService',
+            '$location', function( uicDropdownService, uicNavBarService, $location){
                 return {
                     template: navbarTpl,
                     // component directives should be elements only
@@ -74,23 +90,51 @@
                         $scope.registeredMenus = [];
 
                         // listen for minimize event
-                        $scope.$on('header-minimize', function(){
+                        $scope.$on('header-minimize', function(evt){
                             $scope.minimalHeader = true;
                         });
 
                         // listen for maximize event
-                        $scope.$on('header-maximize', function(){
+                        $scope.$on('header-maximize', function(evt){
                             $scope.minimalHeader = false;
                         });
+
+                        // listen for dropdown open event
+                        $scope.$on('dropdown-opened', function(evt){
+                            // perform an action when a child dropdown is opened
+                        });
+
+                        // listen for dropdown close event
+                        $scope.$on('dropdown-closed', function(evt){
+                            // perform an action when a child dropdown is closed
+                        });
+
+                        // listen for menu item event
+                        $scope.$on('menu-item-selected', function(evt, scope){
+                            // grab the url string from the menu iten scope
+                            var url;
+                            try{
+                                url = scope.url || scope.item.url;
+                                // handle navigation programatically
+                                $location.path(url);
+                            }catch(err){
+                                //$console.log('no url')
+                            }
+                        });
                     },
-                    link: function(scope, iElement, iAttrs){
+                    link: function(scope, iElement, iAttrs, ctrl, $transclude){
+
                         // know who the tenants are
                         // note that this link function executes *after*
                         // the link functions of any inner components
-                        scope.registeredMenus = uiCdropdownService.getDropdowns();
+                        // at this point we could extend our NavBar component
+                        // functionality to rebuild menus based on new json or
+                        // disable individual menu items based on $location
+                        scope.registeredMenus = uicDropdownService.getDropdowns();
 
                         // Attr API option for sticky vs fixed
                         scope.position = (iAttrs.sticky == 'true') ? 'navbar-fixed-top' : 'navbar-static-top';
+                        scope.theme = (iAttrs.theme) ? iAttrs.theme : null;;
                     }
                 };
             }]);

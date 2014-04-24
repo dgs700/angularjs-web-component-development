@@ -12,8 +12,9 @@
         + '  <a dropdown-toggle>{{ dropdownTitle }}<b class="caret"></b></a>'
         // this handles menu items supplied via JSON
         + '  <ul class="dropdown-menu" ng-if="jsonData">'
-        + '    <li ng-class="disablable" ng-repeat="item in menuItems">'
-        + '      <a ng-href="{{ item.url }}" ng-bind="item.text"></a>'
+        // set .disabled class if no url provided
+        + '    <li ng-repeat="item in menuItems" ng-class="disablable" ng-init="disablable=(item.url)?null:\'disabled\'">'
+        + '      <a ng-href="{{ item.url }}" ng-bind="item.text" ng-click="selected($event, this)"></a>'
         + '    </li>'
         + '  </ul>'
         // this handles menu items supplied via markup
@@ -30,7 +31,7 @@
         // reliably track open menu status at the component scope level
         // so we prefer to dedicate a service to this task rather than pollute
         // the $rootScope
-        .service('uiCdropdownService', ['$document', function($document){
+        .service('uicDropdownService', ['$document', function($document){
             // currently displayed dropdown
             var openScope = null;
             // array of added dropdown scopes
@@ -104,7 +105,7 @@
         .directive('uicDropdownMenu', [
             '$parse',
             '$animate',
-            'uiCdropdownService', function($parse, $animate, uiCdropdownService){
+            'uicDropdownService', function($parse, $animate, uicDropdownService){
             return {
                 template: dropdownTpl,
                 // component directives should be elements only
@@ -118,6 +119,8 @@
                     url: '@'
                 },
                 controller: function($scope, $element, $attrs){
+
+                    //$scope.disablable = '';
 
                     // persistent instance reference
                     var that = this,
@@ -142,7 +145,7 @@
                     if($scope.menuItems) $scope.jsonData = true;
 
                     // add angular element reference to controller instance
-                    // for later class toggling
+                    // for later class toggling if desired
                     this.init = function( element ) {
                         that.$element = element;
                     };
@@ -160,29 +163,46 @@
                         }
                     };
 
+                    $scope.selected = function($event, scope){
+                        $scope.$emit('menu-item-selected', scope);
+                        $event.preventDefault();
+                        $event.stopPropagation();
+                        // optionally perform some action before navigation
+                    }
+
                     // all dropdowns need to watch the value of this expr
                     // and set evt bindings and classes accordingly
                     $scope.$watch('isOpen', function( isOpen, wasOpen ) {
                         if ( isOpen ) {
                             $scope.focusToggleElement();
-                            uiCdropdownService.open($scope);
+                            uicDropdownService.open($scope);
+
+                            $scope.$emit('dropdown-opened');
                         } else {
-                            uiCdropdownService.close($scope);
+                            uicDropdownService.close($scope);
+                            //
+                            $scope.$emit('dropdown-closed');
                         }
                     });
 
                     // listen for client side route changes
                     $scope.$on('$locationChangeSuccess', function() {
-                        $scope.isOpen = false;
+                        //$scope.isOpen = false;
+                    });
+
+                    // listen for menu item selected events
+                    $scope.$on('menu-item-selected', function(evt, element) {
+                        // do something when a child menu item is selected
                     });
                 },
                 link: function(scope, iElement, iAttrs, dropdownCtrl){
                     dropdownCtrl.init( iElement );
                     // add to tracked array of dropdown scopes
-                    uiCdropdownService.register(scope);
+                    uicDropdownService.register(scope);
                 }
             };
         }])
+
         // the angular version of $('.dropdown-menu').slideToggle(200)
         .directive('dropdownMenu', function(){
             return {
@@ -201,7 +221,9 @@
         .directive('uicMenuItem', [function(){
             return {
                 // replace custom element with html5 markup
-                template: '<li><a ng-href="{{ url }}" ng-bind="text"></a></li>',
+                template: '<li ng-class="disablable">' +
+                    '<a ng-href="{{ url }}" ng-bind="text" ng-click="selected($event, this)"></a>' +
+                    '</li>',
                 replace: true,
                 restrict: 'E',
 
@@ -210,6 +232,22 @@
                     text: '@',
                     // attribute API for menu href URL
                     url: '@'
+                },
+                controller: function($scope, $element, $attrs){
+
+                    $scope.disablable = '';
+
+                    // called on ng-click
+                    $scope.selected = function($event, scope){
+                        $scope.$emit('menu-item-selected', scope);
+                        $event.preventDefault();
+                        $event.stopPropagation();
+                        // optionally perform some action before navigation
+                    }
+                },
+                link: function(scope, iElement, iAttrs){
+           //console.warn(scope)
+                    if(!scope.url) scope.disablable = 'disabled';
                 }
             };
         }])

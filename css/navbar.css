@@ -17,32 +17,32 @@ may not be available in the host page
 #uic-navbar .nav a {cursor: pointer;}
 #uic-navbar .navbar-collapse {max-height: inherit;}
 #uic-navbar .navbar-collapse.in {overflow-y: inherit;}
-
-/*
-an example of using a css .classname for name-spacing
-the styles for a component that may be applied more than once on a
-page
-
-.classnames provide much less specificity than #ids, so there is a
-higher likelihood that you may also need to use the dreaded
-"!important" postfix on rules
-*/
-.uic-dropdown .dropdown-menu {
+#uic-navbar .uic-dropdown .dropdown-menu {
     display: none;
     background-color: #222;
     border-color: #080808;
     color: #999;
 }
 @media (max-width: 768px) {
-    .uic-dropdown .dropdown-menu{
+    #uic-navbar .uic-dropdown .dropdown-menu{
         position: static;
         float: none;
     }
 }
-.uic-dropdown .dropdown-menu li a {
+#uic-navbar .uic-dropdown .dropdown-menu li a {
     color: #999;
 }
-.uic-dropdown .dropdown-menu li a:hover {
+#uic-navbar .uic-dropdown .dropdown-menu li a:hover {
     color: #FFF;
     background-color: #222;
+}
+#uic-navbar .navbar-inverse .navbar-nav .disabled>a,
+#uic-navbar .navbar-inverse .navbar-nav .disabled>a:hover,
+#uic-navbar .navbar-inverse .navbar-nav .disabled>a:focus,
+#uic-navbar .dropdown-menu>li.disabled>a,
+#uic-navbar .dropdown-menu>li.disabled>a:hover,
+#uic-navbar .dropdown-menu>li.disabled>a:focus
+{
+    color: #444;
+    background-color: transparent;
 }
