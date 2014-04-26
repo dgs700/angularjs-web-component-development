@@ -24,7 +24,6 @@
     // Dropdown Menu Component
     // Credit for portions of logic to the Angular-UI Bootstrap team
     // https://github.com/angular-ui/bootstrap
-
     angular.module('uiComponents.dropdown', [])
 
         // because we have a tansclusion option for the dropdowns we cannot
@@ -32,8 +31,10 @@
         // so we prefer to dedicate a service to this task rather than pollute
         // the $rootScope
         .service('uicDropdownService', ['$document', function($document){
+
             // currently displayed dropdown
             var openScope = null;
+
             // array of added dropdown scopes
             var dropdowns = [];
 
@@ -55,8 +56,9 @@
                 }
             };
 
-            // exposed functions
+            // exposed service functions
             return {
+
                 // called by linking fn of dropdown directive
                 register: function(scope){
                     dropdowns.push(scope);
@@ -175,12 +177,18 @@
                     $scope.$watch('isOpen', function( isOpen, wasOpen ) {
                         if ( isOpen ) {
                             $scope.focusToggleElement();
+
+                            // tell our service we've been opened
                             uicDropdownService.open($scope);
 
+                            // fire off an "opened" event (event API) for any listeners out there
                             $scope.$emit('dropdown-opened');
                         } else {
+
+                            // tell our service we've been closed
                             uicDropdownService.close($scope);
-                            //
+
+                            // fire a closed event (event API)
                             $scope.$emit('dropdown-closed');
                         }
                     });
@@ -206,10 +214,18 @@
         // the angular version of $('.dropdown-menu').slideToggle(200)
         .directive('dropdownMenu', function(){
             return {
+
+                // match just classnames to stay consistent with other implementations
                 restrict: 'C',
                 link: function(scope, element, attr) {
+
+                    // set watch on new/old values of isOpen boolean for component instance
                     scope.$watch('isOpen', function( isOpen, wasOpen ){
+
+                        // if we detect that there has been a change for THIS instance
                         if(isOpen !== wasOpen){
+
+                            // stop any existing animation and start the opposite animation
                             element.stop().slideToggle(200);
                         }
                     });
@@ -222,11 +238,15 @@
             return {
                 // replace custom element with html5 markup
                 template: '<li ng-class="disablable">' +
+                    // note the use of ng-bind vs. {{}} to prevent any brief flash of the raw template
                     '<a ng-href="{{ url }}" ng-bind="text" ng-click="selected($event, this)"></a>' +
                     '</li>',
                 replace: true,
+
+                // restrict usage to element only
                 restrict: 'E',
 
+                // new isolate scope
                 scope: {
                     // attibute API for menu item text
                     text: '@',
@@ -235,18 +255,25 @@
                 },
                 controller: function($scope, $element, $attrs){
 
+                    // the default for the "disabled" API is enabled
                     $scope.disablable = '';
 
                     // called on ng-click
                     $scope.selected = function($event, scope){
+
+                        // published API for selected event
                         $scope.$emit('menu-item-selected', scope);
+
+                        // prevent the browser behavior for an anchor element click
                         $event.preventDefault();
                         $event.stopPropagation();
-                        // optionally perform some action before navigation
+
+                        // optionally perform some other actions before navigation
                     }
                 },
                 link: function(scope, iElement, iAttrs){
-           //console.warn(scope)
+
+                    // add the Bootstrap "disabled" class if there is no url
                     if(!scope.url) scope.disablable = 'disabled';
                 }
             };
@@ -257,11 +284,15 @@
         // necessary elements
         .directive('dropdownToggle', function() {
             return {
+
                 // keep to attributes since this is not a UI component
                 restrict: 'A',
+
                 // list of UI components to work for
                 require: '?^uicDropdownMenu',
+
                 link: function(scope, element, attrs, dropdownCtrl) {
+
                     // render inert if no dropdown controller is injected
                     if ( !dropdownCtrl ) {
                         return;
@@ -272,10 +303,14 @@
 
                     // click event listener for this directive
                     var toggleDropdown = function(event) {
+
+                        // prevent the browser default behavior for anchor elements
                         event.preventDefault();
                         event.stopPropagation();
 
+                        // check that we are not disabed before toggling visibility
                         if ( !element.hasClass('disabled') && !attrs.disabled ) {
+
                             // call toggle() on the correct component scope
                             scope.$apply(function() {
                                 dropdownCtrl.toggle();
