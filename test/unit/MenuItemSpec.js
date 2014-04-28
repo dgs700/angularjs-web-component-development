@@ -12,7 +12,7 @@ describe('My MenuItem component directive', function () {
     }));
 
     // create some HTML to simulate how a developer might include
-    // our smart button component in their page that covers all of
+    // our menu item component in their page that covers all of
     // the API options
     var tpl = '<uic-menu-item text="First Item" url="http://david--shapiro.blogspot.com/"></uic-menu-item>';
 
@@ -30,13 +30,14 @@ describe('My MenuItem component directive', function () {
             element = $element.html();
         });
     }
-    // test our component APIs
-    describe('Menu Item Component API', function(){
+    // test our component  APIs
+    describe('Menu Item Component API coverage', function(){
         var scope;
         beforeEach(function(){
             compileDirective();
             // get access to the actual controller instance
             scope = $element.data('$scope').$$childHead;
+            // create a fake event
             $event = $.Event( "click" );
         });
         it('should use the attr value (API) of "text" as the menu label', function(){
@@ -49,6 +50,17 @@ describe('My MenuItem component directive', function () {
             spyOn(scope, '$emit');
             scope.selected($event, scope);
             expect(scope.$emit).toHaveBeenCalledWith('menu-item-selected', scope);
+        });
+    });
+
+    var tplNoUrl = '<uic-menu-item text="First Item"></uic-menu-item>';
+    describe('Menu Item Component other functionality', function(){
+        var scope;
+        beforeEach(function(){
+            compileDirective(tplNoUrl);
+        });
+        it('should use the attr value (API) of "url" for the href url', function(){
+            expect($element.hasClass('disabled')).toBeTruthy();
         });
     });
 });
