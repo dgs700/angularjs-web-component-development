@@ -1,7 +1,7 @@
+/*Functionality for the dropdown service and dropdown toggle directive provided by the Angular-UI team*/
+
 (function(){
     'use strict';
-
-//todo - check for href string and set ".disabled" class if none
 
     // html5 markup that replaces custom <uic-dropdown-menu> component element
     var dropdownTpl =
@@ -9,7 +9,7 @@
         // some encapsulation for the component css
           '<li class="uic-dropdown">'
         // directive to toggle display of dropdown
-        + '  <a dropdown-toggle>{{ dropdownTitle }}<b class="caret"></b></a>'
+        + '  <a dropdown-toggle ng-bind="dropdownTitle"><b class="caret"></b></a>'
         // this handles menu items supplied via JSON
         + '  <ul class="dropdown-menu" ng-if="jsonData">'
         // set .disabled class if no url provided
@@ -233,106 +233,55 @@
             };
         })
 
-/*
-        // a simple menu item component directive
-        .directive('uicMenuItem', [function(){
-            return {
-                // replace custom element with html5 markup
-                template: '<li ng-class="disablable">' +
-                    // note the use of ng-bind vs. {{}} to prevent any brief flash of the raw template
-                    '<a ng-href="{{ url }}" ng-bind="text" ng-click="selected($event, this)"></a>' +
-                    '</li>',
-                replace: true,
+// from Angular ui.bootstrap.dropdownToggle
+// helper directive for setting active/passive state on the
+// necessary elements
+.directive('dropdownToggle', function() {
+    return {
 
-                // restrict usage to element only
-                restrict: 'E',
+        // keep to attributes since this is not a UI component
+        restrict: 'A',
 
-                // new isolate scope
-                scope: {
-                    // attibute API for menu item text
-                    text: '@',
-                    // attribute API for menu href URL
-                    url: '@'
-                },
-                controller: function($scope, $element, $attrs){
+        // list of UI components to work for
+        require: '?^uicDropdownMenu',
 
-                    // the default for the "disabled" API is enabled
-                    $scope.disablable = '';
+        link: function(scope, element, attrs, dropdownCtrl) {
 
-                    // called on ng-click
-                    $scope.selected = function($event, scope){
+            // render inert if no dropdown controller is injected
+            if ( !dropdownCtrl ) {
+                return;
+            }
 
-                        // published API for selected event
-                        $scope.$emit('menu-item-selected', scope);
+            // set the toggle element in the dropdown component
+            dropdownCtrl.toggleElement = element;
 
-                        // prevent the browser behavior for an anchor element click
-                        $event.preventDefault();
-                        $event.stopPropagation();
+            // click event listener for this directive
+            var toggleDropdown = function(event) {
 
-                        // optionally perform some other actions before navigation
-                    }
-                },
-                link: function(scope, iElement, iAttrs){
+                // prevent the browser default behavior for anchor elements
+                event.preventDefault();
+                event.stopPropagation();
 
-                    // add the Bootstrap "disabled" class if there is no url
-                    if(!scope.url) scope.disablable = 'disabled';
-                }
-            };
-        }])
-*/
+                // check that we are not disabed before toggling visibility
+                if ( !element.hasClass('disabled') && !attrs.disabled ) {
 
-        // from Angular ui.bootstrap.dropdownToggle
-        // helper directive for setting active/passive state on the
-        // necessary elements
-        .directive('dropdownToggle', function() {
-            return {
-
-                // keep to attributes since this is not a UI component
-                restrict: 'A',
-
-                // list of UI components to work for
-                require: '?^uicDropdownMenu',
-
-                link: function(scope, element, attrs, dropdownCtrl) {
-
-                    // render inert if no dropdown controller is injected
-                    if ( !dropdownCtrl ) {
-                        return;
-                    }
-
-                    // set the toggle element in the dropdown component
-                    dropdownCtrl.toggleElement = element;
-
-                    // click event listener for this directive
-                    var toggleDropdown = function(event) {
-
-                        // prevent the browser default behavior for anchor elements
-                        event.preventDefault();
-                        event.stopPropagation();
-
-                        // check that we are not disabed before toggling visibility
-                        if ( !element.hasClass('disabled') && !attrs.disabled ) {
-
-                            // call toggle() on the correct component scope
-                            scope.$apply(function() {
-                                dropdownCtrl.toggle();
-                            });
-                        }
-                    };
-
-                    // add click evt binding
-                    element.bind('click', toggleDropdown);
-
-                    // clean up click event binding
-                    scope.$on('$destroy', function() {
-                        element.unbind('click', toggleDropdown);
+                    // call toggle() on the correct component scope
+                    scope.$apply(function() {
+                        dropdownCtrl.toggle();
                     });
                 }
             };
-        })
-    ;
 
+            // add click evt binding
+            element.bind('click', toggleDropdown);
 
+            // clean up click event binding
+            scope.$on('$destroy', function() {
+                element.unbind('click', toggleDropdown);
+            });
+        }
+    };
+});
 })();
 
 

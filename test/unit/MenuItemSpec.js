@@ -53,13 +53,14 @@ describe('My MenuItem component directive', function () {
         });
     });
 
+    // template with no URL attribute
     var tplNoUrl = '<uic-menu-item text="First Item"></uic-menu-item>';
     describe('Menu Item Component other functionality', function(){
         var scope;
         beforeEach(function(){
             compileDirective(tplNoUrl);
         });
-        it('should use the attr value (API) of "url" for the href url', function(){
+        it('should add a "disabled" class if there is no URL provided', function(){
             expect($element.hasClass('disabled')).toBeTruthy();
         });
     });
