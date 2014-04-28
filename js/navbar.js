@@ -22,12 +22,12 @@
             + '      </ul>'
             // this renders if the designer includes markup for dropdowns
             + '      <ul class="nav navbar-nav" ng-hide="minimalHeader" uic-include></ul>'
-
             + '    </div>'
             + '  </div>'
             + '</nav>';
 
     angular.module('uiComponents.navbar', ['uiComponents.dropdown'])
+
         // utility functions for nav bar population
         .service('uicNavBarService', [
             '$window', function($window){
@@ -74,7 +74,8 @@
                     // isolate scope
                     scope: {
                         // attribute API for hiding dropdowns
-                        minimalHeader: '@minimal'
+                        minimalHeader: '@minimal',
+                        homeUrl: '@'
                     },
                     controller: function($scope, $element, $attrs){
 

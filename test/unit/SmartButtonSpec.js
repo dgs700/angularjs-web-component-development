@@ -23,6 +23,7 @@ describe('My SmartButton component directive', function () {
     function compileDirective(directiveTpl) {
         // use our default template if none provided
         if (!directiveTpl) directiveTpl = tpl;
+
         inject(function($compile) {
             // manually compile the template and inject the scope in
             $element = $compile(directiveTpl)($scope);

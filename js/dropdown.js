@@ -24,7 +24,7 @@
     // Dropdown Menu Component
     // Credit for portions of logic to the Angular-UI Bootstrap team
     // https://github.com/angular-ui/bootstrap
-    angular.module('uiComponents.dropdown', [])
+    angular.module('uiComponents.dropdown', ['uiComponents.menuitem'])
 
         // because we have a tansclusion option for the dropdowns we cannot
         // reliably track open menu status at the component scope level
@@ -233,6 +233,7 @@
             };
         })
 
+/*
         // a simple menu item component directive
         .directive('uicMenuItem', [function(){
             return {
@@ -278,6 +279,7 @@
                 }
             };
         }])
+*/
 
         // from Angular ui.bootstrap.dropdownToggle
         // helper directive for setting active/passive state on the
@@ -329,6 +331,8 @@
             };
         })
     ;
+
+
 })();
 
 

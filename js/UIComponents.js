@@ -1,6 +1,6 @@
 (function(){
     'use strict';
-    angular.module('UIComponents',[])
+    angular.module('UIComponents',['uiComponents.smartButton', 'uiComponents.menuitem'])
     .run(['$rootScope', '$window', function($rootScope, $window){
         // let's change the style class of a clicked smart button
         $rootScope.$on('smart-button-click', function(evt){

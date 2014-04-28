@@ -1,6 +1,7 @@
 (function(){
     'use strict';
-    var buttons = angular.module('UIComponents');
+    //var buttons = angular.module('UIComponents');
+    var buttons = angular.module('uiComponents.smartButton', []);
     buttons.directive('smartButton', ['$timeout', function($timeout){
 //        var tpl = '<a ng-class="bttnClass" '
 //            + 'ng-click="doSomething(this);debug()">{{bttnText}}</a>';
