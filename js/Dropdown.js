@@ -105,9 +105,7 @@
         // Primary dropdown compomnent direcitve
         // this is also technically a container component
         .directive('uicDropdownMenu', [
-            '$parse',
-            '$animate',
-            'uicDropdownService', function($parse, $animate, uicDropdownService){
+            'uicDropdownService', function(uicDropdownService){
             return {
                 template: dropdownTpl,
                 // component directives should be elements only
@@ -233,55 +231,55 @@
             };
         })
 
-// from Angular ui.bootstrap.dropdownToggle
-// helper directive for setting active/passive state on the
-// necessary elements
-.directive('dropdownToggle', function() {
-    return {
+    // from Angular ui.bootstrap.dropdownToggle
+    // helper directive for setting active/passive state on the
+    // necessary elements
+    .directive('dropdownToggle', function() {
+        return {
 
-        // keep to attributes since this is not a UI component
-        restrict: 'A',
+            // keep to attributes since this is not a UI component
+            restrict: 'A',
 
-        // list of UI components to work for
-        require: '?^uicDropdownMenu',
+            // list of UI components to work for
+            require: '?^uicDropdownMenu',
 
-        link: function(scope, element, attrs, dropdownCtrl) {
+            link: function(scope, element, attrs, dropdownCtrl) {
 
-            // render inert if no dropdown controller is injected
-            if ( !dropdownCtrl ) {
-                return;
-            }
-
-            // set the toggle element in the dropdown component
-            dropdownCtrl.toggleElement = element;
-
-            // click event listener for this directive
-            var toggleDropdown = function(event) {
-
-                // prevent the browser default behavior for anchor elements
-                event.preventDefault();
-                event.stopPropagation();
-
-                // check that we are not disabed before toggling visibility
-                if ( !element.hasClass('disabled') && !attrs.disabled ) {
-
-                    // call toggle() on the correct component scope
-                    scope.$apply(function() {
-                        dropdownCtrl.toggle();
-                    });
+                // render inert if no dropdown controller is injected
+                if ( !dropdownCtrl ) {
+                    return;
                 }
-            };
 
-            // add click evt binding
-            element.bind('click', toggleDropdown);
+                // set the toggle element in the dropdown component
+                dropdownCtrl.toggleElement = element;
 
-            // clean up click event binding
-            scope.$on('$destroy', function() {
-                element.unbind('click', toggleDropdown);
-            });
-        }
-    };
-});
+                // click event listener for this directive
+                var toggleDropdown = function(event) {
+
+                    // prevent the browser default behavior for anchor elements
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    // check that we are not disabed before toggling visibility
+                    if ( !element.hasClass('disabled') && !attrs.disabled ) {
+
+                        // call toggle() on the correct component scope
+                        scope.$apply(function() {
+                            dropdownCtrl.toggle();
+                        });
+                    }
+                };
+
+                // add click evt binding
+                element.bind('click', toggleDropdown);
+
+                // clean up click event binding
+                scope.$on('$destroy', function() {
+                    element.unbind('click', toggleDropdown);
+                });
+            }
+        };
+    });
 })();
 
 
