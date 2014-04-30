@@ -1,0 +1,42 @@
+{
+  "name": "AngularComponents",
+  "version": "0.0.1",
+  "description": "AngularJS Web Component Development companian examples and code",
+  "main": "index.html",
+  "devDependencies": {
+    "grunt": "~0.4.4",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-uglify": "^0.4.0",
+    "grunt-html2js": "~0.2.4"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "files": [],
+  "scripts": {
+    "test": "./test/test.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dgs700/angularjs-web-component-development.git"
+  },
+  "keywords": [
+    "angular",
+    "angularjs",
+    "web",
+    "components",
+    "book",
+    ""
+  ],
+  "author": {
+    "name": "David Shapiro",
+    "email": "dave@david-shapiro.net",
+    "url": "https://github.com/dgs700"
+  },
+  "license": "MIT",
+  "gitHead": "d356ff9cfdefeb8c72d19da6fdca47d312d50990",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/dgs700/angularjs-web-component-development/issues"
+  }
+}

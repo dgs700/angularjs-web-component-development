@@ -193,7 +193,7 @@
 
                     // listen for client side route changes
                     $scope.$on('$locationChangeSuccess', function() {
-                        //$scope.isOpen = false;
+                        $scope.isOpen = false;
                     });
 
                     // listen for menu item selected events
