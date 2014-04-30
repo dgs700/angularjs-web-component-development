@@ -1,7 +1,7 @@
 // menu item UI component
 
 (function () {
-    angular.module('uiComponents.menuitem', [])
+    angular.module('uiComponents.menuItem', [])
         // a simple menu item component directive
         .directive('uicMenuItem', [function(){
             return {

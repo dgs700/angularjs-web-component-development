@@ -24,7 +24,7 @@
     // Dropdown Menu Component
     // Credit for portions of logic to the Angular-UI Bootstrap team
     // https://github.com/angular-ui/bootstrap
-    angular.module('uiComponents.dropdown', ['uiComponents.menuitem'])
+    angular.module('uiComponents.dropdown', ['uiComponents.menuItem'])
 
         // because we have a tansclusion option for the dropdowns we cannot
         // reliably track open menu status at the component scope level
@@ -102,18 +102,22 @@
             };
         }])
 
-        // Primary dropdown compomnent direcitve
+        // Primary dropdown component direcitve
         // this is also technically a container component
         .directive('uicDropdownMenu', [
             'uicDropdownService', function(uicDropdownService){
             return {
                 template: dropdownTpl,
+
                 // component directives should be elements only
                 restrict: 'E',
+
                 // replace custom tags with standard html5 markup
                 replace: true,
+
                 // allow page designer to include menu item elements
                 transclude: true,
+
                 // isolate scope
                 scope: {
                     url: '@'
@@ -124,6 +128,7 @@
 
                     // persistent instance reference
                     var that = this,
+
                     // class that sets display: block
                         closeClass = 'close',
                         openClass = 'open';
