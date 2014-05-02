@@ -1,7 +1,7 @@
 describe('My MenuItem component directive', function () {
     var $compile, $rootScope, $scope, $element, element, $event;
     // manually initialize our component library module
-    beforeEach(module('UIComponents'));
+    beforeEach(module('uiComponents.menuItem'));
     // make the necessary angular utility methods available
     // to our tests
     beforeEach(inject(function (_$compile_, _$rootScope_) {

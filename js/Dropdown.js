@@ -104,8 +104,8 @@
 
         // Primary dropdown component direcitve
         // this is also technically a container component
-        .directive('uicDropdownMenu', [
-            'uicDropdownService', function(uicDropdownService){
+        .directive('uicDropdownMenu', ['$timeout',
+            'uicDropdownService', function($timeout, uicDropdownService){
             return {
                 template: dropdownTpl,
 

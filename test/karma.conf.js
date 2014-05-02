@@ -14,14 +14,15 @@ module.exports = function(config) {
         '../lib/bootstrap.min.js',
         '../lib/angular.min.js',
         '../lib/angular-mocks.js',
-        //'../lib/ui-bootstrap-collapse.js',
+        '../lib/ui-bootstrap-collapse.js',
         '../js/UIComponents.js',
         '../js/SmartButton.js',
         '../js/MenuItem.js',
+        '../js/Dropdown.js',
         //'../js/*js',
         'unit/SmartButtonSpec.js',
-        'unit/MenuItemSpec.js'
-        //'unit/DropdownSpec.js',
+        'unit/MenuItemSpec.js',
+        'unit/DropdownSpec.js'
         //'unit/NavbarSpec.js'
     ],
     // list of files to exclude
