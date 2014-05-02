@@ -11,7 +11,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-ngdocs');
 
     // Project configuration.
-    grunt.util.linefeed = '\n';
+    //grunt.util.linefeed = '\n';
 
     grunt.initConfig({
         ngversion: '1.2.16',
@@ -28,13 +28,44 @@ module.exports = function (grunt) {
             }
         },
 
+        html2js: {
+            options: {},
+            dist: {
+                options: {
+                    module: null, // no bundle module for all the html2js templates
+                    base: '.'
+                },
+                files: [{
+                    expand: true,
+                    src: ['template/**/*.html'],
+                    ext: '.html.js'
+                }]
+            },
+            main: {
+                options: {
+                    //indentString: '    ',
+                    quoteChar: '\'',
+                    module: null
+                },
+                files: {
+                    'build/template/Dropdown.tpl.js': ['html/Dropdown.tpl.html'],
+                    'build/template/MenuItem.tpl.js': ['html/MenuItem.tpl.html'],
+                    'build/template/Navbar.tpl.js': ['html/Navbar.tpl.html'],
+                    'build/template/SmartButton.tpl.js': ['html/SmartButton.tpl.html']
+                }
+                //src: ['html/*.tpl.html'],
+                //dest: 'build/template/templates.js'
+            }
+        },
         watch: {
             files: [
                 'js/*.js'
             ],
             tasks: ['uglify']
-        }
+        },
+
+
     });
 
-    grunt.registerTask('default', ['uglify']);
+    grunt.registerTask('default', ['html2js']);
 };
