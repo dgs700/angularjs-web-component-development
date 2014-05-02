@@ -24,7 +24,7 @@
     // Dropdown Menu Component
     // Credit for portions of logic to the Angular-UI Bootstrap team
     // https://github.com/angular-ui/bootstrap
-    angular.module('uiComponents.dropdown', ['uiComponents.menuItem'])
+    angular.module('uiComponents.dropdown', ["ui.bootstrap.custom",'uiComponents.menuItem'])
 
         // because we have a tansclusion option for the dropdowns we cannot
         // reliably track open menu status at the component scope level
@@ -122,7 +122,10 @@
                 scope: {
                     url: '@'
                 },
-                controller: function($scope, $element, $attrs){
+                controller: [
+                    '$scope',
+                    '$element',
+                    '$attrs', function($scope, $element, $attrs){
 
                     //$scope.disablable = '';
 
@@ -198,14 +201,14 @@
 
                     // listen for client side route changes
                     $scope.$on('$locationChangeSuccess', function() {
-                        $scope.isOpen = false;
+                        //$scope.isOpen = false;
                     });
 
                     // listen for menu item selected events
                     $scope.$on('menu-item-selected', function(evt, element) {
                         // do something when a child menu item is selected
                     });
-                },
+                }],
                 link: function(scope, iElement, iAttrs, dropdownCtrl){
                     dropdownCtrl.init( iElement );
                     // add to tracked array of dropdown scopes

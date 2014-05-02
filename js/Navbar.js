@@ -77,7 +77,10 @@
                         minimalHeader: '@minimal',
                         homeUrl: '@'
                     },
-                    controller: function($scope, $element, $attrs){
+                    controller: [
+                        '$scope',
+                        '$element',
+                        '$attrs', function($scope, $element, $attrs){
 
                         // at the mobile width breakpoint
                         // the Nav Bar items are not initially visible
@@ -122,7 +125,7 @@
                                 //$console.log('no url')
                             }
                         });
-                    },
+                    }],
                     link: function(scope, iElement, iAttrs, ctrl, $transclude){
 
                         // know who the tenants are

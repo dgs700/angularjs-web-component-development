@@ -22,7 +22,7 @@
                     // attribute API for menu href URL
                     url: '@'
                 },
-                controller: function($scope, $element, $attrs){
+                controller: ['$scope', function($scope, $element, $attrs){
 
                     // the default for the "disabled" API is enabled
                     $scope.disablable = '';
@@ -39,7 +39,7 @@
 
                         // optionally perform some other actions before navigation
                     }
-                },
+                }],
                 link: function(scope, iElement, iAttrs){
 
                     // add the Bootstrap "disabled" class if there is no url
