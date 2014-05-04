@@ -1,6 +1,10 @@
 (function(){
     'use strict';
-    angular.module('UIComponents', ['uiComponents.dropdown', 'uiComponents.navbar', 'ui.bootstrap.custom']);
+    angular.module('UIComponents', [
+        'uiComponents.dropdown',
+        'uiComponents.navbar',
+        'ui.bootstrap.custom'
+    ]);
 
     // html5 markup that replaces custom <uic-nav-bar> component element
     var navbarTpl =
@@ -62,14 +66,14 @@
         .directive('uicNavBar', [
             'uicDropdownService',
             'uicNavBarService',
-            '$location', function( uicDropdownService, uicNavBarService, $location){
+            '$location',
+            '$compile', function( uicDropdownService, uicNavBarService, $location, $compile){
                 return {
                     template: navbarTpl,
-                    // component directives should be elements only
                     restrict: 'E',
+
                     // allow page designer to include dropdown elements
                     transclude: true,
-                    // replace custom tags with standard html5 markup
                     replace: true,
                     // isolate scope
                     scope: {
@@ -139,6 +143,31 @@
                         // Attr API option for sticky vs fixed
                         scope.position = (iAttrs.sticky == 'true') ? 'navbar-fixed-top' : 'navbar-static-top';
                         scope.theme = (iAttrs.theme) ? iAttrs.theme : null;;
+//////// proto code for add dropdown option ////////////////
+                        var menu = {"Test":[
+                            {
+                                "text":"Contact Us",
+                                "url":"/company/contact"
+                            },{
+                                "text":"Jobs",
+                                "url":"/company/jobs"
+                            },{
+                                "text":"Privacy Statement",
+                                "url":"/company/privacy"
+                            },{
+                                "text":"Terms of Use",
+                                "url":"/company/terms"
+                            }]
+                        };
+
+                        var newScope = scope.$root.$new();
+
+                        newScope.$parent.menu = menu;
+
+                        var $el = $compile('<uic-dropdown-menu></uic-dropdown-menu>')(newScope)
+                        console.warn($el)
+                        iElement.find('ul').append( $el );
+/////////////////////////////
                     }
                 };
             }]);

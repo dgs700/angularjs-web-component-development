@@ -127,8 +127,8 @@
                     '$element',
                     '$attrs', function($scope, $element, $attrs){
 
-                    //$scope.disablable = '';
-
+                    $scope.disablable = '';
+                    $scope.isOpen = false;
                     // persistent instance reference
                     var that = this,
 
@@ -201,6 +201,8 @@
 
                     // listen for client side route changes
                     $scope.$on('$locationChangeSuccess', function() {
+                        // some bug in current version of angular is causing
+                        // $locationChangeSuccess to be broadcast on app.run()
                         //$scope.isOpen = false;
                     });
 
