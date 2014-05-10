@@ -228,7 +228,7 @@
                     });
 
                     // listen for menu item selected events
-                    $scope.$on('menu-item-selected', function(evt, element) {
+                    $scope.$on('menu-item-selected', function(evt, targetScope) {
                         // do something when a child menu item is selected
                     });
                 }],

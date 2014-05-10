@@ -112,7 +112,7 @@ describe('My Dropdown component directive', function () {
         });
 
         it('should get its title text from the menu JSON obj key', function(){
-            expect(scope.dropdownTitle).toEqual("Company");
+            expect(scope.dropdownTitle).toContain("Company");
         });
 
         it('should know that it is using JSON data for rendering', function(){

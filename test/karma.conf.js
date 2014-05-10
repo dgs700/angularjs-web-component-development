@@ -13,17 +13,18 @@ module.exports = function(config) {
         '../lib/jquery-2.1.0.min.js',
         '../lib/bootstrap.min.js',
         '../lib/angular.min.js',
+        '../lib/angular-sanitize.min.js',
         '../lib/angular-mocks.js',
         '../lib/ui-bootstrap-collapse.js',
         '../js/UIComponents.js',
         '../js/SmartButton.js',
+        'unit/SmartButtonSpec.js',
         '../js/MenuItem.js',
         '../js/Dropdown.js',
-        //'../js/*js',
-        'unit/SmartButtonSpec.js',
+        '../js/Navbar.js',
         'unit/MenuItemSpec.js',
-        'unit/DropdownSpec.js'
-        //'unit/NavbarSpec.js'
+        'unit/DropdownSpec.js',
+        'unit/NavbarSpec.js'
     ],
     // list of files to exclude
     exclude: [
