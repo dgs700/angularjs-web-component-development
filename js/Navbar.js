@@ -21,11 +21,11 @@
             + '    </div>'
             + '    <div class="collapse navbar-collapse" collapse="isCollapsed">'
             // this renders if menu json data is available
-            + '      <ul class="nav navbar-nav" ng-hide="minimalHeader">'
+            + '      <ul class="nav navbar-nav uic-data" ng-hide="minimalHeader">'
             + '        <uic-dropdown-menu ng-repeat="menu in menus"></uic-dropdown-menu>'
             + '      </ul>'
             // this renders if the designer includes markup for dropdowns
-            + '      <ul class="nav navbar-nav" ng-hide="minimalHeader" uic-include></ul>'
+            + '      <ul class="nav navbar-nav uic-include" ng-hide="minimalHeader" uic-include></ul>'
             + '    </div>'
             + '  </div>'
             + '</nav>';
@@ -36,11 +36,21 @@
         .service('uicNavBarService', [
             '$window', function($window){
 
+                // add menu data manually
+                var menus = false;
+                this.addMenus = function(data){
+                    if(angular.isArray(data)){
+                        menus = data;
+                    }
+                };
+
                 // functionality can expanded to include menu data via REST
                 // check if a menus json object is available
                 this.getMenus = function(){
                     if($window.UIC && $window.UIC.header){
                         return $window.UIC.header;
+                    }else if(menus){
+                        return menus;
                     }else{
                         return false;
                     }
@@ -102,10 +112,15 @@
 
                             // attach the json obj data at the same location
                             // as the dropdown controller would
-                            newScope.$parent.menu = menuObj;
+                            newScope.menu = newScope.$parent.menu = menuObj;
 
                             // manually compile and link a new dropdown component
                             var $el = $compile('<uic-dropdown-menu></uic-dropdown-menu>')(newScope);
+
+                            // retrieve access to the ISOLATE scope so we can
+                            // call digest which is necessary for unit test coverage
+                            var isolateScope = $el.isolateScope();
+                            isolateScope.$digest();
 
                             // attach the new dropdown to the end of the first child <ul>
                             // todo - add more control over DOM attach points
@@ -176,17 +191,17 @@
                         });
 
                             // listen for dropdown open event
-                        $scope.$on('dropdown-opened', function(evt){
+                        $scope.$on('dropdown-opened', function(evt, targetScope){
 
                             // perform an action when a child dropdown is opened
-                            $log.log('dropdown-opened', evt.targetScope);
+                            $log.log('dropdown-opened', targetScope);
                         });
 
                         // listen for dropdown close event
-                        $scope.$on('dropdown-closed', function(evt){
+                        $scope.$on('dropdown-closed', function(evt, targetScope){
 
                             // perform an action when a child dropdown is closed
-                            $log.log('dropdown-opened', evt.targetScope);
+                            $log.log('dropdown-closed', targetScope);
                         });
 
                         // listen for menu item event
@@ -197,7 +212,7 @@
                                 url = scope.url || scope.item.url;
                                 // handle navigation programatically
                                 //$location.path(url);
-                                $log.warn(url);
+                                $log.log(url);
                             }catch(err){
                                 $log.warn('no url');
                             }

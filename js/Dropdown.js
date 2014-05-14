@@ -163,7 +163,6 @@
                             $scope.uicId = dropdownTitle;
                         }
                     });
-
                     // supply string value for dropdown title via attribute API
                     if($attrs.text){
                         $scope.uicId = $attrs.text;

@@ -6,7 +6,7 @@
         .directive('uicMenuItem', [function(){
             return {
                 // replace custom element with html5 markup
-                template: '<li ng-class="disablable">' +
+                template: '<li class="uic-menu-item" ng-class="disablable">' +
                     // note the use of ng-bind vs. {{}} to prevent any brief flash of the raw template
                     '<a ng-href="{{ url }}" ng-bind="text" ng-click="selected($event, this)"></a>' +
                     '</li>',

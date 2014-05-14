@@ -72,7 +72,7 @@ describe('My Dropdown component directive', function () {
             compileDirective();
 
             // get access to the actual controller instance
-            scope = $element.data('$scope').$$childHead;
+            scope = $element.isolateScope();
 
             // create a fake click event
             $event = $.Event( "click" );
@@ -108,7 +108,7 @@ describe('My Dropdown component directive', function () {
         beforeEach(function(){
             $scope.$parent.menu = menu;
             compileDirective(tplJson);
-            scope = $element.data('$scope').$$childHead;
+            scope = $element.isolateScope();
         });
 
         it('should get its title text from the menu JSON obj key', function(){
@@ -132,7 +132,7 @@ describe('My Dropdown component directive', function () {
             // get an explicit reference to the dropdown service
             beforeEach(inject(function (uicDropdownService) {
                 $_uicDropdownService = uicDropdownService;
-                anotherScope = $element.data('$scope').$$childHead;
+                anotherScope = $element.isolateScope();
                 $_uicDropdownService.register(anotherScope);
             }));
 

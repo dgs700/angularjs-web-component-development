@@ -36,7 +36,7 @@ describe('My MenuItem component directive', function () {
         beforeEach(function(){
             compileDirective();
             // get access to the actual controller instance
-            scope = $element.data('$scope').$$childHead;
+            scope = $element.isolateScope();
             // create a fake event
             $event = $.Event( "click" );
         });

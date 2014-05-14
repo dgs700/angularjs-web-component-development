@@ -39,7 +39,7 @@ describe('My SmartButton component directive', function () {
         beforeEach(function(){
             compileDirective();
             // get access to the actual controller instance
-            scope = $element.data('$scope').$$childHead;
+            scope = $element.isolateScope();
             spyOn($rootScope, '$broadcast').andCallThrough();
         });
         it('should use the attr value of "default-text" as the initially displayed bttn text', function(){
