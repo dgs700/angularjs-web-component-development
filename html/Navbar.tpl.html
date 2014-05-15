@@ -10,10 +10,10 @@
             <a class="navbar-brand" ng-href="{{ homeUrl }}">Brand Logo</a>
         </div>
         <div class="collapse navbar-collapse" collapse="isCollapsed">
-            <ul class="nav navbar-nav" ng-hide="minimalHeader">
+            <ul class="nav navbar-nav uic-data" ng-hide="minimalHeader">
                 <uic-dropdown-menu ng-repeat="menu in menus"></uic-dropdown-menu>
             </ul>
-            <ul class="nav navbar-nav" ng-hide="minimalHeader" uic-include></ul>
+            <ul class="nav navbar-nav uic-include" ng-hide="minimalHeader" uic-include></ul>
         </div>
     </div>
 </nav>
