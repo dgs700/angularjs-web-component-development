@@ -6,12 +6,13 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-html2js');
+    grunt.loadNpmTasks('grunt-import');
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-conventional-changelog');
     grunt.loadNpmTasks('grunt-ngdocs');
 
     // Project configuration.
-    //grunt.util.linefeed = '\n';
+    //grunt.util.linefeed
 
     grunt.initConfig({
         ngversion: '1.2.16',
@@ -20,11 +21,22 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
         uglify: {
             options: {
-                banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+                banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
+                mangle: false,
+                sourceMap: true
             },
             build: {
                 src: 'js/MenuItem.js',
                 dest: 'build/MenuItem.min.js'
+            },
+            test: {
+                files: [{
+                    expand: true,
+                    cwd: 'build/src',
+                    src: '*.js',
+                    dest: 'build/test',
+                    ext: '.min.js'
+                }]
             }
         },
 
@@ -48,10 +60,10 @@ module.exports = function (grunt) {
                     module: null
                 },
                 files: {
-                    'build/template/Dropdown.tpl.js': ['html/Dropdown.tpl.html'],
-                    'build/template/MenuItem.tpl.js': ['html/MenuItem.tpl.html'],
-                    'build/template/Navbar.tpl.js': ['html/Navbar.tpl.html'],
-                    'build/template/SmartButton.tpl.js': ['html/SmartButton.tpl.html']
+                    'build/tmp/Dropdown.tpl.js': ['html/Dropdown.tpl.html'],
+                    'build/tmp/MenuItem.tpl.js': ['html/MenuItem.tpl.html'],
+                    'build/tmp/Navbar.tpl.js': ['html/Navbar.tpl.html'],
+                    'build/tmp/SmartButton.tpl.js': ['html/SmartButton.tpl.html']
                 }
                 //src: ['html/*.tpl.html'],
                 //dest: 'build/template/templates.js'
@@ -63,9 +75,20 @@ module.exports = function (grunt) {
             ],
             tasks: ['uglify']
         },
+        import: {
+            options: {},
+            dist: {
+                expand: true,
+                cwd: 'js/',
+                src: '*.js',
+                dest: 'build/src/',
+                ext: '.js'
+            }
+        }
 
 
     });
 
     grunt.registerTask('default', ['html2js']);
+    grunt.registerTask('test', ['html2js:main', 'import:dist', 'uglify:test']);
 };

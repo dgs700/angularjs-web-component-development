@@ -6,29 +6,7 @@
         'ui.bootstrap.custom'
     ]);
 
-    // html5 markup that replaces custom <uic-nav-bar> component element
-    var navbarTpl =
-        '<nav id="uic-navbar" class="navbar navbar-inverse" ng-class="[position,theme]">'
-            + '  <div class="container-fluid">'
-            + '    <div class="navbar-header">'
-            + '      <button class="navbar-toggle" type="button" ng-click="isCollapsed = !isCollapsed">'
-            + '        <span class="sr-only">Toggle navigation</span>'
-            + '        <span class="icon-bar"></span>'
-            + '        <span class="icon-bar"></span>'
-            + '        <span class="icon-bar"></span>'
-            + '      </button>'
-            + '      <a class="navbar-brand" ng-href="{{ homeUrl }}">Brand Logo</a>'
-            + '    </div>'
-            + '    <div class="collapse navbar-collapse" collapse="isCollapsed">'
-            // this renders if menu json data is available
-            + '      <ul class="nav navbar-nav uic-data" ng-hide="minimalHeader">'
-            + '        <uic-dropdown-menu ng-repeat="menu in menus"></uic-dropdown-menu>'
-            + '      </ul>'
-            // this renders if the designer includes markup for dropdowns
-            + '      <ul class="nav navbar-nav uic-include" ng-hide="minimalHeader" uic-include></ul>'
-            + '    </div>'
-            + '  </div>'
-            + '</nav>';
+    //@import "../build/tmp/Navbar.tpl.js";
 
     angular.module('uiComponents.navbar', ['uiComponents.dropdown'])
 
@@ -80,7 +58,7 @@
             '$compile',
             '$log', function( uicDropdownService, uicNavBarService, $location, $compile, $log){
                 return {
-                    template: navbarTpl,
+                    template: tpl,
                     restrict: 'E',
 
                     // allow page designer to include dropdown elements

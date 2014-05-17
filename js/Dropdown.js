@@ -4,22 +4,7 @@
     'use strict';
 
     // html5 markup that replaces custom <uic-dropdown-menu> component element
-    var dropdownTpl =
-        // the "namespaced" .uic-dropdown class can be used to provide
-        // some encapsulation for the component css
-          '<li class="uic-dropdown">'
-        // directive to toggle display of dropdown
-        + '  <a dropdown-toggle ng-bind-html="dropdownTitle"></a>'
-        // this handles menu items supplied via JSON
-        + '  <ul class="dropdown-menu" ng-if="jsonData">'
-        // set .disabled class if no url provided
-        + '    <li ng-repeat="item in menuItems" ng-class="disablable" ng-init="disablable=(item.url)?null:\'disabled\'">'
-        + '      <a ng-href="{{ item.url }}" ng-bind="item.text" ng-click="selected($event, this)"></a>'
-        + '    </li>'
-        + '  </ul>'
-        // this handles menu items supplied via markup
-        + '  <ul class="dropdown-menu" ng-if="!jsonData" ng-transclude></ul>'
-        + '</li>';
+    //@import "../build/tmp/Dropdown.tpl.js";
 
     // Dropdown Menu Component
     // Credit for portions of logic to the Angular-UI Bootstrap team
@@ -121,7 +106,7 @@
         .directive('uicDropdownMenu', ['$timeout',
             'uicDropdownService', function($timeout, uicDropdownService){
             return {
-                template: dropdownTpl,
+                template: tpl,
 
                 // component directives should be elements only
                 restrict: 'E',

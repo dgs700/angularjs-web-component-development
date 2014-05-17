@@ -1,15 +1,20 @@
 // menu item UI component
 
 (function () {
+    "use strict"
+
+    //@import "../build/tmp/MenuItem.tpl.js";
+
     angular.module('uiComponents.menuItem', [])
         // a simple menu item component directive
         .directive('uicMenuItem', [function(){
             return {
                 // replace custom element with html5 markup
-                template: '<li class="uic-menu-item" ng-class="disablable">' +
+                //template: '<li class="uic-menu-item" ng-class="disablable">' +
                     // note the use of ng-bind vs. {{}} to prevent any brief flash of the raw template
-                    '<a ng-href="{{ url }}" ng-bind="text" ng-click="selected($event, this)"></a>' +
-                    '</li>',
+                //    '<a ng-href="{{ url }}" ng-bind="text" ng-click="selected($event, this)"></a>' +
+                //    '</li>',
+                template: tpl,
                 replace: true,
 
                 // restrict usage to element only

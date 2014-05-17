@@ -1,12 +1,14 @@
 (function(){
     'use strict';
-    //var buttons = angular.module('UIComponents');
+
+    //@import "../build/tmp/SmartButton.tpl.js";
+
     var buttons = angular.module('uiComponents.smartButton', []);
     buttons.directive('smartButton', ['$timeout', function($timeout){
 //        var tpl = '<a ng-class="bttnClass" '
 //            + 'ng-click="doSomething(this);debug()">{{bttnText}}</a>';
-        var tpl = '<a ng-class="bttnClass"'
-                + 'ng-click="doSomething(this);debug()">{{bttnText}} <span ng-transclude></span></a>';
+        //var tpl = '<a ng-class="bttnClass"'
+        //        + 'ng-click="doSomething(this);debug()">{{bttnText}} <span ng-transclude></span></a>';
         return {
             template: tpl, // use an inline template for increaced
             restrict: 'E', // restrict directive matching to elements

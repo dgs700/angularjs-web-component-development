@@ -1,3 +1,4 @@
-<li ng-class="disablable">
-    <a ng-href="{{ url }}" ng-bind="text" ng-click="selected($event, this)"></a>
-</li>
+<a ng-class="bttnClass" ng-click="doSomething(this);debug()">
+    {{bttnText}}
+    <span ng-transclude></span>
+</a>

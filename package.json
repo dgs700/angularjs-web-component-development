@@ -12,8 +12,10 @@
     "grunt-contrib-watch": "^0.6.1",
     "grunt-conventional-changelog": "^1.1.0",
     "grunt-html2js": "~0.2.4",
+    "grunt-import": "^0.1.7",
     "grunt-karma": "^0.8.3",
     "grunt-ngdocs": "^0.2.2",
+    "gulp": "^3.6.2",
     "karma": "^0.12.14"
   },
   "directories": {
