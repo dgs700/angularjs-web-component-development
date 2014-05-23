@@ -1,0 +1,28 @@
+/*
+an example of using a css .classname for name-spacing
+the styles for a component that may be applied more than once on a
+page
+
+.classnames provide much less specificity than #ids, so there is a
+higher likelihood that you may also need to use the dreaded
+"!important" postfix on rules
+*/
+.uic-dropdown .dropdown-menu{
+  display: none;
+  background-color: #333;
+  border-color: #080808;
+  color: #AAA;
+}
+@media (max-width: 768px) {
+  .uic-dropdown .dropdown-menu{
+    position: static;
+    float: none;
+  }
+}
+.uic-dropdown .dropdown-menu li a{
+  color: #AAA;
+}
+.uic-dropdown .dropdown-menu li a:hover{
+  color: #EEE;
+  background-color: #111;
+}

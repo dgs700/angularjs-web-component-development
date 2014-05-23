@@ -17,14 +17,14 @@ module.exports = function(config) {
         '../lib/angular-mocks.js',
         '../lib/ui-bootstrap-collapse.js',
         '../js/UIComponents.js',
-        '../js/SmartButton.js',
-        'unit/SmartButtonSpec.js',
-        '../js/MenuItem.js',
-        '../js/Dropdown.js',
-        '../js/Navbar.js',
-        'unit/MenuItemSpec.js',
-        'unit/DropdownSpec.js',
-        'unit/NavbarSpec.js'
+        '../src/SmartButton/SmartButton.js',
+        '../src/SmartButton/test/SmartButtonSpec.js',
+        '../src/MenuItem/MenuItem.js',
+        '../src/Dropdown/Dropdown.js',
+        '../src/Navbar/Navbar.js',
+        '../src/MenuItem/test/MenuItemSpec.js',
+        '../src/Dropdown/test/DropdownSpec.js',
+        '../src/Navbar/test/NavbarSpec.js'
     ],
     // list of files to exclude
     exclude: [
@@ -51,7 +51,7 @@ module.exports = function(config) {
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     //browsers: ['PhantomJS'],
-      browsers: ['Chrome'],
+    browsers: ['Chrome'],
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
     singleRun: false
