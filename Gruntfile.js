@@ -16,8 +16,9 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-conventional-changelog');
 
     // minify and combine js and css for production dist
-    grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-ngmin');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
 
     // set up any desired source file watches
     grunt.loadNpmTasks('grunt-contrib-watch');

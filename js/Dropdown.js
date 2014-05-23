@@ -35,7 +35,7 @@
                 openScope.$apply(function() {
                     openScope.isOpen = false;
                 });
-            };
+            }
 
             // event handler for escape key
             function escapeKeyBind( evt ) {
@@ -43,7 +43,7 @@
                     openScope.focusToggleElement();
                     closeDropdown();
                 }
-            };
+            }
 
             // exposed service functions
             return {
@@ -181,7 +181,7 @@
                         $event.preventDefault();
                         $event.stopPropagation();
                         // optionally perform some action before navigation
-                    }
+                    };
 
                     // all dropdowns need to watch the value of this expr
                     // and set evt bindings and classes accordingly
