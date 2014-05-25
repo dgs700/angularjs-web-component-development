@@ -1,0 +1,21 @@
+{
+    "curly": true,
+    "immed": true,
+    "newcap": true,
+    "noarg": true,
+    "sub": true,
+    "boss": true,
+    "eqnull": true,
+    "quotmark": "single",
+    "trailing": true,
+    "strict":true,
+    "eqeqeq":true,
+    "camelcase":true,
+    "globals": {
+        "angular": true,
+        "jquery":true,
+        "phantom":true,
+        "node":true,
+        "browser":true
+    }
+}
