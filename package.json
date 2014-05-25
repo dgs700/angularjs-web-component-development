@@ -26,7 +26,10 @@
     "gulp-karma": "0.0.4",
     "gulp-less": "^1.2.3",
     "gulp-uglify": "^0.3.0",
-    "karma": "^0.12.14"
+    "karma": "^0.12.14",
+    "karma-chrome-launcher": "^0.1.4",
+    "karma-jasmine": "^0.1.5",
+    "karma-phantomjs-launcher": "^0.1.4"
   },
   "directories": {
     "test": "test"

@@ -4,8 +4,10 @@ module.exports = function (grunt) {
 
     // prepare encapsulated source files
     grunt.loadNpmTasks('grunt-contrib-less');
-    grunt.loadNpmTasks('grunt-html2js');
-    grunt.loadNpmTasks('grunt-import');
+    //grunt.loadNpmTasks('grunt-html2js');
+    grunt.loadTasks('lib/project/grunt-html2js-var/tasks');
+    //grunt.loadNpmTasks('grunt-import');
+    grunt.loadTasks('lib/project/grunt-import-js/tasks');
 
     // check the js source code quality
     grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -29,10 +31,45 @@ module.exports = function (grunt) {
 
         // external library versions
         ngversion: '1.2.16',
-        bsversion: '3.1.1',
+        modules: [], //to be filled in by build task
+        dist: 'dist',
+        filename: 'ui-components',
+        filenamecustom: '<%= filename %>-custom',
 
         // make the NPM configs available as vars
         pkg: grunt.file.readJSON('package.json'),
+
+        meta: {
+            modules: 'angular.module("uiComponents", [<%= srcModules %>]);',
+            //tplmodules: 'angular.module("ui.bootstrap.tpls", [<%= tplModules %>]);',
+            //all: 'angular.module("ui.bootstrap", ["ui.bootstrap.tpls", <%= srcModules %>]);',
+            all: '<%= meta.srcModules %>',
+            banner: ['/*',
+                ' * <%= pkg.name %>',
+                ' * <%= pkg.homepage %>\n',
+                ' * Version: <%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>',
+                ' * License: <%= pkg.license %>',
+                ' */\n'].join('\n')
+        },
+
+        karma: {
+            options: {
+                configFile: 'test/karma.conf.js',
+                autoWatch: false,
+                browsers: ['PhantomJS']
+            },
+            unit: {
+                singleRun: true,
+                reporters: 'dots'
+            }
+        },
+
+        jshint: {
+            options: {
+                force: true
+            },
+            all: ['Gruntfile.js', 'src/**/*.js']
+        },
 
         // provide options and subtasks for uglify
         uglify: {
@@ -56,7 +93,7 @@ module.exports = function (grunt) {
             }
         },
 
-        html2js: {
+        html2jsVar: {
             options: {},
             dist: {
                 options: {
@@ -71,54 +108,64 @@ module.exports = function (grunt) {
             },
             main: {
                 options: {
-                    //indentString: '    ',
                     quoteChar: '\'',
                     module: null
                 },
-                files: {
-                    'build/tmp/Dropdown.tpl.js': ['html/Dropdown.tpl.html'],
-                    'build/tmp/MenuItem.tpl.js': ['html/MenuItem.tpl.html'],
-                    'build/tmp/Navbar.tpl.js': ['html/Navbar.tpl.html'],
-                    'build/tmp/SmartButton.tpl.js': ['html/SmartButton.tpl.html']
-                }
-                //src: ['html/*.tpl.html'],
-                //dest: 'build/template/templates.js'
+                files: [{
+                    expand: true, // Enable dynamic expansion.
+                    cwd: 'src/', // Src matches are relative to this path.
+                    src: ['**/*.html'], // Actual pattern(s) to match.
+                    dest: 'build/src/', // Destination path prefix.
+                    ext: '.tpl.js' // Dest filepaths will have this extension.
+                }]
             }
         },
+
         watch: {
-            files: [
-                'js/*.js'
-            ],
-            tasks: ['uglify']
+            source: {
+                files: ['src/**/*.js','src/**/*.html','!src/**/test/*.js'],
+                tasks: ['dev'],
+                options: {
+                    livereload: true
+                },
+            },
         },
-        import: {
+
+        importJs: {
             options: {},
-            dist: {
+            dev: {
                 expand: true,
-                cwd: 'js/',
-                src: '*.js',
+                cwd: 'src/',
+                src: ['**/*.js', '!**/test/*.js'],
                 dest: 'build/src/',
                 ext: '.js'
             }
         },
+
         less: {
             dev: {
-                files: {
-                    'css/ui-components.css': 'less/ui-components.less'
-                }
+                files: [
+                    {
+                        expand: true, // Enable dynamic expansion.
+                        cwd: 'src/', // Src matches are relative to this path.
+                        src: ['**/*.less'], // Actual pattern(s) to match.
+                        dest: 'build/src/', // Destination path prefix.
+                        ext: '.css' // Dest filepaths will have this extension.
+                    }
+                ],
             },
             production: {
                 options: {
                     cleancss: true
                 },
                 files: {
-                    'css/ui-components.css': 'less/ui-components.less'
+                    'css/ui-components.css': 'src/less/ui-components.less'
                 }
             }
         }
     });
 
-//    grunt.registerTask('css', ['less:production']);
-    grunt.registerTask('default', ['html2js']);
-    grunt.registerTask('test', ['html2js:main', 'import:dist', 'uglify:test']);
+    grunt.registerTask('preCommit', ['jshint:all', 'karma:unit']);
+    grunt.registerTask('dev', ['html2jsVar:main', 'importJs:dev', 'less:dev']);
+    grunt.registerTask('test', ['html2jsVar:main', 'importJs:dev', 'uglify:test']);
 };

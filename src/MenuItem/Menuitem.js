@@ -1,9 +1,10 @@
 // menu item UI component
 
 (function () {
-    "use strict"
+    "use strict";
 
-    //@import "../build/tmp/MenuItem.tpl.js";
+    var tpl = '';
+    //@import "../../build/src/MenuItem/MenuItem.tpl.js";
 
     angular.module('uiComponents.menuItem', [])
         // a simple menu item component directive
@@ -43,7 +44,7 @@
                         $event.stopPropagation();
 
                         // optionally perform some other actions before navigation
-                    }
+                    };
                 }],
                 link: function(scope, iElement, iAttrs){
 

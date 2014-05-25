@@ -3,15 +3,15 @@
 (function(){
     'use strict';
 
-    // html5 markup that replaces custom <uic-dropdown-menu> component element
-    //@import "../build/tmp/Dropdown.tpl.js";
+    var tpl = '';
+    //@import "../../build/src/Dropdown/Dropdown.tpl.js";
 
     // Dropdown Menu Component
     // Credit for portions of logic to the Angular-UI Bootstrap team
     // https://github.com/angular-ui/bootstrap
     angular.module('uiComponents.dropdown', [
-            "ui.bootstrap.custom",
             'uiComponents.menuItem',
+            'ui.bootstrap.custom',
             'ngSanitize'
         ])
 
@@ -35,7 +35,7 @@
                 openScope.$apply(function() {
                     openScope.isOpen = false;
                 });
-            };
+            }
 
             // event handler for escape key
             function escapeKeyBind( evt ) {
@@ -43,7 +43,7 @@
                     openScope.focusToggleElement();
                     closeDropdown();
                 }
-            };
+            }
 
             // exposed service functions
             return {
@@ -181,7 +181,7 @@
                         $event.preventDefault();
                         $event.stopPropagation();
                         // optionally perform some action before navigation
-                    }
+                    };
 
                     // all dropdowns need to watch the value of this expr
                     // and set evt bindings and classes accordingly

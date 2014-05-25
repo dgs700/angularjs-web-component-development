@@ -1,9 +1,17 @@
 <li class="uic-dropdown">
-    <a dropdown-toggle ng-bind-html="dropdownTitle"><b class="caret"></b></a>
-    <ul class="dropdown-menu" ng-if="jsonData">
-        <li ng-repeat="item in menuItems" ng-class="disablable" ng-init="disablable=(item.url)?null: \'disabled\'">
-            <a ng-href="{{ item.url }}" ng-bind="item.text" ng-click="selected($event, this)"></a>
+    <a dropdown-toggle
+       ng-bind-html="dropdownTitle"><b class="caret"></b></a>
+    <ul class="dropdown-menu"
+        ng-if="jsonData">
+        <li ng-repeat="item in menuItems"
+            ng-class="disablable"
+            ng-init="disablable=(item.url)?null: \'disabled\'">
+            <a ng-href="{{ item.url }}"
+               ng-bind="item.text"
+               ng-click="selected($event, this)"></a>
         </li>
     </ul>
-    <ul class="dropdown-menu" ng-if="!jsonData" ng-transclude></ul>
+    <ul class="dropdown-menu"
+        ng-if="!jsonData"
+        ng-transclude></ul>
 </li>

@@ -6,7 +6,8 @@
         'ui.bootstrap.custom'
     ]);
 
-    //@import "../build/tmp/Navbar.tpl.js";
+    var tpl = '';
+    //@import "../../build/src/Navbar/Navbar.tpl.js";
 
     angular.module('uiComponents.navbar', ['uiComponents.dropdown'])
 
@@ -210,7 +211,7 @@
                         scope.position = (iAttrs.sticky == 'true') ? 'navbar-fixed-top' : 'navbar-static-top';
 
                         // get theme css class from attr API if set
-                        scope.theme = (iAttrs.theme) ? iAttrs.theme : null;;
+                        scope.theme = (iAttrs.theme) ? iAttrs.theme : null;
 
                         // send compiled/linked element back to ctrl instance
                         navCtrl.init( iElement );

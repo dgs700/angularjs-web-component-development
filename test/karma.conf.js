@@ -17,14 +17,14 @@ module.exports = function(config) {
         '../lib/angular-mocks.js',
         '../lib/ui-bootstrap-collapse.js',
         '../js/UIComponents.js',
-        '../src/SmartButton/SmartButton.js',
-        '../src/SmartButton/test/SmartButtonSpec.js',
-        '../src/MenuItem/MenuItem.js',
-        '../src/Dropdown/Dropdown.js',
-        '../src/Navbar/Navbar.js',
-        '../src/MenuItem/test/MenuItemSpec.js',
-        '../src/Dropdown/test/DropdownSpec.js',
-        '../src/Navbar/test/NavbarSpec.js'
+        '../build/src/SmartButton/SmartButton.js',
+        '../build/src/SmartButton/test/SmartButtonSpec.js',
+        '../build/src/MenuItem/MenuItem.js',
+        '../build/src/Dropdown/Dropdown.js',
+        '../build/src/Navbar/Navbar.js',
+        '../build/src/MenuItem/test/MenuItemSpec.js',
+        '../build/src/Dropdown/test/DropdownSpec.js',
+        '../build/src/Navbar/test/NavbarSpec.js'
     ],
     // list of files to exclude
     exclude: [
@@ -46,8 +46,10 @@ module.exports = function(config) {
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
     logLevel: config.LOG_INFO,
+
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: true,
+
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     //browsers: ['PhantomJS'],

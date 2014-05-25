@@ -11,6 +11,8 @@
     "strict":true,
     "eqeqeq":true,
     "camelcase":true,
+    "laxbreak":true,
+    "multistr":true,
     "globals": {
         "angular": true,
         "jquery":true,
