@@ -167,5 +167,6 @@ module.exports = function (grunt) {
 
     grunt.registerTask('preCommit', ['jshint:all', 'karma:unit']);
     grunt.registerTask('dev', ['html2jsVar:main', 'importJs:dev', 'less:dev']);
-    grunt.registerTask('test', ['html2jsVar:main', 'importJs:dev', 'uglify:test']);
+    //grunt.registerTask('test', ['html2jsVar:main', 'importJs:dev', 'uglify:test']);
+    grunt.registerTask('default', ['dev', 'preCommit']);
 };
