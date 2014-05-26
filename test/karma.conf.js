@@ -18,13 +18,13 @@ module.exports = function(config) {
         '../lib/ui-bootstrap-collapse.js',
         '../js/UIComponents.js',
         '../build/src/SmartButton/SmartButton.js',
-        '../build/src/SmartButton/test/SmartButtonSpec.js',
+        '../src/SmartButton/test/SmartButtonSpec.js',
         '../build/src/MenuItem/MenuItem.js',
         '../build/src/Dropdown/Dropdown.js',
         '../build/src/Navbar/Navbar.js',
-        '../build/src/MenuItem/test/MenuItemSpec.js',
-        '../build/src/Dropdown/test/DropdownSpec.js',
-        '../build/src/Navbar/test/NavbarSpec.js'
+        '../src/MenuItem/test/MenuItemSpec.js',
+        '../src/Dropdown/test/DropdownSpec.js',
+        '../src/Navbar/test/NavbarSpec.js'
     ],
     // list of files to exclude
     exclude: [

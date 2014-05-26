@@ -14,10 +14,10 @@ describe('My SmartButton component directive', function () {
     // create some HTML to simulate how a developer might include
     // our smart button component in their page that covers all of
     // the API options
-    var tpl = '<smart-button default-text="A Very Smart Button" '
-        + 'active-text="Wait for 5 seconds..." '
-        + 'debug="showAlert(\'a value on the $rootScope\')"'
-        + '>{{bttnText}} Text from transclusion.</smart-button>';
+    var tpl = '<smart-button default-text="A Very Smart Button" ' +
+        'active-text="Wait for 5 seconds..." ' +
+        'debug="showAlert(\'a value on the $rootScope\')">' +
+        '{{bttnText}} Text from transclusion.</smart-button>';
 
     // manually compile and link our component directive
     function compileDirective(directiveTpl) {
