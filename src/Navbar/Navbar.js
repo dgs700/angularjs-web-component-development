@@ -1,10 +1,5 @@
 (function(){
     'use strict';
-    angular.module('UIComponentsTest', [
-        'uiComponents.dropdown',
-        'uiComponents.navbar',
-        'ui.bootstrap.custom'
-    ]);
 
     var tpl = '';
     //@import "../../build/src/Navbar/Navbar.tpl.js";
