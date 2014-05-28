@@ -1,13 +1,16 @@
 module.exports = function (grunt) {
 
-    // load 3rd party tasks
+    // load local tasks
 
-    // prepare encapsulated source files
-    grunt.loadNpmTasks('grunt-contrib-less');
     //grunt.loadNpmTasks('grunt-html2js');
     grunt.loadTasks('lib/project/grunt-html2js-var/tasks');
     //grunt.loadNpmTasks('grunt-import');
     grunt.loadTasks('lib/project/grunt-import-js/tasks');
+
+    // load 3rd party tasks
+
+    // prepare encapsulated source files
+    grunt.loadNpmTasks('grunt-contrib-less');
 
     // check the js source code quality
     grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -24,8 +27,6 @@ module.exports = function (grunt) {
     // set up any desired source file watches
     grunt.loadNpmTasks('grunt-contrib-watch');
 
-    //grunt.loadNpmTasks('grunt-contrib-copy');
-
     // configure the tasks
     grunt.initConfig({
 
@@ -41,8 +42,11 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
         srcDir: 'src/',
         buildSrcDir: 'build/src/',
+
         // keep a module:filename lookup table since there isn's
         // a regular naming convention to work with
+        // all small non-component and 3rd party libs
+        // MUST be included here for build tasks
         libMap: {
             "ui.bootstrap.custom":"ui-bootstrap-collapse.js",
             "ngSanitize":"angular-sanitize.min.js"
@@ -50,12 +54,10 @@ module.exports = function (grunt) {
 
         meta: {
             modules: 'angular.module("uiComponents", [<%= srcModules %>]);',
-            //tplmodules: 'angular.module("ui.bootstrap.tpls", [<%= tplModules %>]);',
-            //all: 'angular.module("ui.bootstrap", ["ui.bootstrap.tpls", <%= srcModules %>]);',
             all: '<%= meta.srcModules %>',
             banner: ['/*',
                 ' * <%= pkg.name %>',
-                ' * <%= pkg.homepage %>\n',
+                ' * <%= pkg.repository.url %>\n',
                 ' * Version: <%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>',
                 ' * License: <%= pkg.license %>',
                 ' */\n'].join('\n')
@@ -70,6 +72,10 @@ module.exports = function (grunt) {
             unit: {
                 singleRun: true,
                 reporters: 'dots'
+            },
+            chrome: {
+                autoWatch: true,
+                browsers: ['Chrome']
             }
         },
 
@@ -183,70 +189,87 @@ module.exports = function (grunt) {
             }
         },
         concat: {
+            // it is assumed that libs are already minified
             libs: {
                 src: [],
                 dest: '<%= dist %>/libs.js'
             },
+            // concatenate just the modules, the output will
+            // have libs prepended after running distFull
             comps: {
                 options: {
                     banner: '<%= meta.banner %><%= meta.modules %>\n'
                 },
-                src: [], //src filled in by build task
+                //src filled in by build task
+                src: [],
                 dest: '<%= dist %>/<%= filename %>-<%= pkg.version %>.js'
             },
-            dist: {
-                options: {
-                    //banner: '<%= meta.banner %><%= meta.modules %>\n'
-                },
-                src: ['<%= concat.libs.dest %>','<%= uglify.dist.dest %>'], //src filled in by build task
+            // create minified file with everything
+            distMin: {
+                options: {},
+                //src filled in by build task
+                src: ['<%= concat.libs.dest %>','<%= uglify.dist.dest %>'],
                 dest: '<%= dist %>/<%= filename %>-<%= pkg.version %>.min.js'
+            },
+            // create unminified file with everything
+            distFull: {
+                options: {},
+                //src filled in by build task
+                src: ['<%= concat.libs.dest %>','<%= concat.comps.dest %>'],
+                dest: '<%= dist %>/<%= filename %>-<%= pkg.version %>.js'
             }
-            /*dist_tpls: {
-                options: {
-                    banner: '<%= meta.banner %><%= meta.all %>\n<%= meta.tplmodules %>\n'
-                },
-                src: [], //src filled in by build task
-                dest: '<%= dist %>/<%= filename %>-tpls-<%= pkg.version %>.js'
-            }*/
         }
     });
 
     grunt.registerTask('preCommit', ['jshint:all', 'karma:unit']);
     grunt.registerTask('dev', ['html2jsVar:main', 'importJs:dev', 'less:dev']);
-    //grunt.registerTask('test', ['html2jsVar:main', 'importJs:dev', 'uglify:test']);
     grunt.registerTask('default', ['dev', 'preCommit']);
 
-
-    //Common ui.bootstrap module containing all modules for src and templates
-    //findModule: Adds a given module to config
+    // Credit portions of the following code to UI-Bootstrap team
+    // functions supporting build-all and build custom tasks
     var foundComponents = {};
     var _ = grunt.util._;
-    var ucwords = function(text) {
+
+    // capitalize utility
+    function ucwords (text) {
         return text.replace(/^([a-z])|\s+([a-z])/g, function ($1) {
             return $1.toUpperCase();
         });
     }
-    var lcwords =  function(text) {
+
+    // uncapitalize utility
+    function lcwords (text) {
         return text.replace(/^([A-Z])|\s+([A-Z])/g, function ($1) {
             return $1.toLowerCase();
         });
     }
+
+    // enclose string in quotes
+    // for creating "angular.module(..." statements
+    function enquote(str) {
+        return '"' + str + '"';
+    }
+
     function findModule(name) {
 
         // by convention, the "name" of the module for files, dirs and
         // other reference is Capitalized
+        // the nme when used in AngularJS code is not
         name = ucwords(name);
 
+        // we only need to process each component once
         if (foundComponents[name]) { return; }
         foundComponents[name] = true;
+
+        // add space to display name
         function breakup(text, separator) {
             return text.replace(/[A-Z]/g, function (match) {
                 return separator + match;
             });
         }
-        function enquote(str) {
-            return '"' + str + '"';
-        }
+
+        // gather all the necessary component meta info
+        // todo - include doc and unit test info
         var component = {
             name: name,
             moduleName: enquote('uiComponents.' + lcwords(name)),
@@ -257,36 +280,58 @@ module.exports = function (grunt) {
             dependencies: dependenciesForModule(name),
             docs: {} // get and do stuff w/ assoc docs
         };
+
+        // recursively locate all component dependencies
         component.dependencies.forEach(findModule);
-        grunt.config('components', grunt.config('components').concat(component));
+
+        // add this component to the official grunt config
+        grunt.config('components', grunt.config('components')
+            .concat(component));
     }
 
+    // for tracking misc non-component and 3rd party dependencies
+    // does not include main libs i.e. Angular Core, jQuery, etc
     var dependencyLibs = [];
+
     function dependenciesForModule(name) {
         var srcDir = grunt.config('buildSrcDir');
         var path = srcDir + name + '/';
         var deps = [];
+
+        // read in component src file contents
         var source = grunt.file.read(path + name + '.js');
 
+        // parse deps from "angular.module(x,[deps])" in src
         var getDeps = function(contents) {
-            //Strategy: find where module is declared,
-            //and from there get everything inside the [] and split them by comma
-            var moduleDeclIndex = contents.indexOf('angular.module(');
-            var depArrayStart = contents.indexOf('[', moduleDeclIndex);
-            var depArrayEnd = contents.indexOf(']', depArrayStart);
-            var dependencies = contents.substring(depArrayStart + 1, depArrayEnd);
+
+            // Strategy: find where module is declared,
+            // and from there get everything i
+            // nside the [] and split them by comma
+            var moduleDeclIndex = contents
+                .indexOf('angular.module(');
+            var depArrayStart = contents
+                .indexOf('[', moduleDeclIndex);
+            var depArrayEnd = contents
+                .indexOf(']', depArrayStart);
+            var dependencies = contents
+                .substring(depArrayStart + 1, depArrayEnd);
             dependencies.split(',').forEach(function(dep) {
+
+                // locate our components that happen to be deps
+                // for tracking by grunt.config
                 if (dep.indexOf('uiComponents.') > -1) {
-                    var depName = dep.trim().replace('uiComponents.','').replace(/['"]/g,'');
+                    var depName = dep.trim()
+                        .replace('uiComponents.','')
+                        .replace(/['"]/g,'');
                     if (deps.indexOf(depName) < 0) {
                         deps.push(ucwords(depName));
-                        //Get dependencies for this new dependency
-                        deps = deps.concat(dependenciesForModule(depName));
+                        // recurse through deps of deps
+                        deps = deps
+                            .concat(dependenciesForModule(depName));
                     }
+                // attach other deps to a non-grunt var
                 } else {
-                    // include non component dependencies in list
                     var libName = dep.trim().replace(/['"]/g,'');
-
                     if(libName && !_.contains(dependencyLibs ,libName) ){
                         dependencyLibs.push(libName);
                     }
@@ -296,75 +341,74 @@ module.exports = function (grunt) {
         getDeps(source);
         return deps;
     }
-    grunt.registerTask('build', 'Create UI component build files', function() {
-        var _ = grunt.util._;
 
-        //If arguments define what modules to build, build those. Else, everything
+    grunt.registerTask('build', 'Create component build files', function() {
+
+        // map of all non-component deps
+        var libMap = grunt.config('libMap');
+        // array of the above to include in build
+        var libFiles = grunt.config('libs');
+        var fileName = '';
+        var buildSrcFiles = [];
+
+        var addLibs = function(lib){
+            fileName = 'lib/' + libMap[lib];
+            libFiles.push(fileName);
+        };
+
+        //If arguments define what modules to build,
+        // build those. Else, everything
         if (this.args.length) {
             this.args.forEach(findModule);
-            var libMap = grunt.config('libMap');
-            var libFiles = [];
-            _.forEach(dependencyLibs, function(lib){
-                var fileName = 'lib/' + libMap[lib];
-                libFiles.push(fileName);
-            })
-            grunt.config('libs', libFiles);
+            _.forEach(dependencyLibs, addLibs);
             grunt.config('filename', grunt.config('filenamecustom'));
+
+        // else build everything
         } else {
-
-            // concat and minify all source components
-            // concat all libs from the libMap
-            // concat libs and buildSrc
-            /*grunt.file.expand({
-                filter: 'isDirectory',
-                cwd: '.'
-            }, 'src*//*').forEach(function(dir) {
-                findModule(dir.split('/')[1]);
-            });*/
-
+            // include all non-component deps in build
+            var libFileNames = _.keys(grunt.config('libMap'));
+            _.forEach(libFileNames, addLibs);
         }
+        grunt.config('libs', libFiles);
 
         var components = grunt.config('components');
-        grunt.config('srcModules', _.pluck(components, 'moduleName'));
+        // prepare source modules for custom build
+        if(components.length){
+            grunt.config('srcModules', _.pluck(components, 'moduleName'));
+            buildSrcFiles = _.pluck(components, 'buildSrcFile');
+        // all source files for full library
+        }else{
+            buildSrcFiles = grunt.file.expand([
+                'build/src/**/*.js',
+                '!build/src/**/*.tpl.js',
+                '!build/src/**/test/*.js'
+            ]);
 
-        var buildSrcFiles = _.pluck(components, 'buildSrcFile');
-        var libFiles = grunt.config('libs');
-        //var tpljsFiles = _.pluck(modules, 'tpljsFiles');
-        //Set the concat task to concatenate the given src modules
-        grunt.config('concat.libs.src', grunt.config('concat.libs.src')
-            .concat(libFiles));
+            // prepare module names for "angular.module('',[])" in build file
+            var mods = [];
+            _.forEach(buildSrcFiles, function(src){
+                var filename = src.replace(/^.*[\\\/]/, '')
+                    .replace(/\.js/,'');
+                filename = enquote('uiComponents.' + lcwords(filename));
+                mods.push(filename);
+            })
+            grunt.config('srcModules', mods);
+        }
+
+        // add src files to concat sub-tasks
         grunt.config('concat.comps.src', grunt.config('concat.comps.src')
             .concat(buildSrcFiles));
+        grunt.config('concat.libs.src', grunt.config('concat.libs.src')
+            .concat(libFiles));
 
-        console.warn(buildSrcFiles);
-        console.warn(grunt.config('libs'));
-
-//        grunt.task.run(['concat', 'uglify']);
-        grunt.task.run(['concat:libs', 'concat:comps', 'uglify', 'concat:dist']);
+        // time to put it all together
+        grunt.task.run([
+            'karma:unit',
+            'concat:libs',
+            'concat:comps',
+            'uglify',
+            'concat:distMin',
+            'concat:distFull'
+        ]);
     });
-
-    grunt.registerTask('bt', 'build test', function(){
-        if (this.args.length) {
-            this.args.forEach(findModule);
-
-            var libMap = grunt.config('libMap');
-            var libFiles = [];
-            _.forEach(dependencyLibs, function(lib){
-                var fileName = 'lib/' + libMap[lib];
-                libFiles.push(fileName);
-            })
-
-            grunt.config('libs', libFiles);
-    console.warn(grunt.config('components'));
-   console.warn(grunt.config('libs'));
-            grunt.config('filename', grunt.config('filenamecustom'));
-
-           // grunt.log.write(grunt.config('filename'));
-        } else {
-            // concat and minify all source components
-            // concat all libs from the libMap
-            // concat libs and
-        }
-    });
-
 };

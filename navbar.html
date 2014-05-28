@@ -6,6 +6,7 @@
     <link href="./build/src/Navbar/Navbar.css" rel="stylesheet">
     <script src="./lib/jquery-2.1.0.min.js"></script>
     <script src="./lib/angular.js"></script>
+
     <script src="./lib/angular-sanitize.min.js"></script>
     <script src="./lib/ui-bootstrap-collapse.js"></script>
 </head>
@@ -132,5 +133,12 @@
 <!--<script src="./build/Dropdown.min.js"></script>-->
 
 <script src="./build/src/Navbar/Navbar.js"></script>
+<script>
+    angular.module('UIComponentsTest', [
+        'uiComponents.dropdown',
+        'uiComponents.navbar',
+        'ui.bootstrap.custom'
+    ]);
+</script>
 </body>
 </html>
