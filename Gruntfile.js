@@ -228,9 +228,10 @@ module.exports = function (grunt) {
     // Credit portions of the following code to UI-Bootstrap team
     // functions supporting build-all and build custom tasks
     var foundComponents = {};
-    var _ = grunt.util._;
+    //var _ = grunt.util._;
+    var _ = require('lodash');
 
-    // capitalize utility
+        // capitalize utility
     function ucwords (text) {
         return text.replace(/^([a-z])|\s+([a-z])/g, function ($1) {
             return $1.toUpperCase();

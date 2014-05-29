@@ -16,7 +16,7 @@ describe('My SmartButton component directive', function () {
     // the API options
     var tpl = '<smart-button default-text="A Very Smart Button" ' +
         'active-text="Wait for 5 seconds..." ' +
-        'debug="showAlert(\'a value on the $rootScope\')">' +
+        'debug="showAlert(\'testing $rootScope access, please ignore\')">' +
         '{{bttnText}} Text from transclusion.</smart-button>';
 
     // manually compile and link our component directive
@@ -54,7 +54,7 @@ describe('My SmartButton component directive', function () {
             expect(element).toContain('Text from transclusion.');
         });
         it('should have the injected logic available for execution', function(){
-            expect(scope.debug()).toBe('a value on the $rootScope');
+            expect(scope.debug()).toBe('testing $rootScope access, please ignore');
         });
         it('should emit any events as APIs', function(){
             spyOn(scope, '$emit');
