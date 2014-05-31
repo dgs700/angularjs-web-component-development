@@ -412,4 +412,6 @@ module.exports = function (grunt) {
             'concat:distFull'
         ]);
     });
+
+    grunt.registerTask('default', ['dev', 'preCommit', 'build']);
 };
