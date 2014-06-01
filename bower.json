@@ -1,0 +1,32 @@
+{
+    "name": "AngularComponents",
+    "version": "0.0.1",
+    "homepage": "https://github.com/dgs700/angularjs-web-component-development",
+    "authors": {
+        "name": "David Shapiro",
+        "email": "dave@david-shapiro.net",
+        "url": "https://github.com/dgs700"
+    },
+    "description": "AngularJS UI Components",
+    "main": "dist/ui-components-0.0.1.min.js",
+    "keywords": [
+        "Angular",
+        "Components"
+    ],
+    "license": "MIT",
+    "ignore": [
+        "**/.*",
+        "img",
+        "less",
+        "src",
+        "node_modules",
+        "test"
+    ],
+    "dependencies": {
+        "angular": "~1.2.16",
+        "bootstrap": "~3.1.1",
+        "ngSanitize":"~0.0.2",
+        "jquery": "1.10.2"
+    },
+
+}
