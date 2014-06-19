@@ -1,5 +1,5 @@
 {
-    "name": "AngularComponents",
+    "name": "angular-components",
     "version": "0.0.1",
     "homepage": "https://github.com/dgs700/angularjs-web-component-development",
     "authors": {
@@ -28,5 +28,4 @@
         "ngSanitize":"~0.0.2",
         "jquery": "1.10.2"
     },
-
 }
