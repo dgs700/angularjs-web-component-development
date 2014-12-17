@@ -1,7 +1,7 @@
 angularjs-web-component-development
 ===================================
 
-Companion code to my upcoming book AngularJS Web Component Development
+Companion code to my book Web Component Architecture & Development with AngularJS
 
 ***
 
