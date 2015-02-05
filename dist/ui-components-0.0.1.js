@@ -183,7 +183,7 @@ c(B(a))}}}var L=h.$$minErr("$sanitize"),A=/^<\s*([\w:-]+)((?:\s+[\w:-]+(?:\s*=\s
  * AngularComponents
  * https://github.com/dgs700/angularjs-web-component-development.git
 
- * Version: 0.0.1 - 2014-05-28
+ * Version: 0.0.1 - 2015-02-05
  * License: MIT
  */
 angular.module("uiComponents", ["uiComponents.dropdown","uiComponents.menuItem","uiComponents.navbar","uiComponents.smartButton"]);

@@ -105,7 +105,12 @@ module.exports = function (grunt) {
                     dest: 'build/test',
                     ext: '.min.js'
                 }]
+            },
+            dist:{
+                src:['<%= concat.comps.dest %>'],
+                dest:'<%= dist %>/<%= filename %>-<%= pkg.version %>.min.js'
             }
+
         },
 
         html2jsVar: {
@@ -142,8 +147,8 @@ module.exports = function (grunt) {
                 tasks: ['dev'],
                 options: {
                     livereload: true
-                },
-            },
+                }
+            }
         },
 
         importJs: {
@@ -168,7 +173,7 @@ module.exports = function (grunt) {
                         dest: 'build/src/', // Destination path prefix.
                         ext: '.css' // Dest filepaths will have this extension.
                     }
-                ],
+                ]
             },
             production: {
                 options: {
@@ -179,7 +184,7 @@ module.exports = function (grunt) {
                 }
             }
         },
-        uglify: {
+        /*uglify: {
             options: {
                 banner: '<%= meta.banner %>'
             },
@@ -187,7 +192,7 @@ module.exports = function (grunt) {
                 src:['<%= concat.comps.dest %>'],
                 dest:'<%= dist %>/<%= filename %>-<%= pkg.version %>.min.js'
             }
-        },
+        },*/
         concat: {
             // it is assumed that libs are already minified
             libs: {
@@ -392,7 +397,7 @@ module.exports = function (grunt) {
                     .replace(/\.js/,'');
                 filename = enquote('uiComponents.' + lcwords(filename));
                 mods.push(filename);
-            })
+            });
             grunt.config('srcModules', mods);
         }
 
